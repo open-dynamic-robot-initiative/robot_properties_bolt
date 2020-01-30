@@ -1,3 +1,12 @@
+## @namespace robot_properties_bolt.bolt_wrapper
+""" This module define the Bolt robot instance. This initializes
+    the simulator as well.
+
+    @copyright Copyright (c) 2020,
+               New York University and Max Planck Gesellschaft,
+               License BSD-3-Clause
+"""
+
 import numpy as np
 
 import time
@@ -31,8 +40,8 @@ class BoltRobot(PinBulletWrapper):
         self.planeId = p.loadURDF(plain_urdf, useFixedBase=True)
 
         # Load the robot
-        robotStartPos = [0.,0,0.40]
-        robotStartOrientation = p.getQuaternionFromEuler([0,0,0])
+        robotStartPos = [0., 0, 0.40]
+        robotStartOrientation = p.getQuaternionFromEuler([0, 0, 0])
 
         self.urdf_path = BoltConfig.urdf_path
         self.robotId = p.loadURDF(self.urdf_path, robotStartPos,
@@ -88,13 +97,13 @@ if __name__ == "__main__":
 
 
     # Run the simulator for 100 steps
-    for i in range(2300000):
+    for i in range(100):
         # TODO: Implement a controller here.
         robot.send_joint_command(tau)
 
         # Step the simulator.
         p.stepSimulation()
-        time.sleep(0.001) # You can sleep here if you want to slow down the replay
+        time.sleep(0.001) # You can use sleep here if you want to slow down the replay
 
     # Read the final state and forces after the stepping.
     q, dq = robot.get_state()

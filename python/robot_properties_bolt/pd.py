@@ -1,7 +1,15 @@
+## @namespace robot_properties_bolt.pd
+""" This module reads planner data from files and runs a PD
+    controller.
+
+    @file pd.py
+    @copyright Copyright (c) 2020,
+               New York University and Max Planck Gesellschaft,
+               License BSD-3-Clause
+"""
+
 import numpy as np
-
 import time
-
 import os
 import rospkg
 import pybullet as p

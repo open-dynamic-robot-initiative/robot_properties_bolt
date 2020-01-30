@@ -1,3 +1,13 @@
+## @namespace robot_properties_bolt.gepetto_gui_loader
+""" This module shows Bolt in gepetto_gui.
+
+    @file gepetto_gui_loader.py
+    @copyright Copyright (c) 2020,
+               New York University and Max Planck Gesellschaft,
+               License BSD-3-Clause
+"""
+
+
 import eigenpy
 eigenpy.switchToNumpyMatrix()
 import time

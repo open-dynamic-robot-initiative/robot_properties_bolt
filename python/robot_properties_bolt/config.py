@@ -1,8 +1,16 @@
+## @namespace robot_properties_bolt.config
+""" This module includes configuration for the Bolt.
+
+    @file config.py
+    @copyright Copyright (c) 2020,
+               New York University and Max Planck Gesellschaft,
+               License BSD-3-Clause
+"""
+
 import numpy as np
 from math import pi
 import rospkg
 from os.path import join, dirname
-from os import environ
 import pinocchio as se3
 from pinocchio.utils import zero
 from pinocchio.robot_wrapper import RobotWrapper
