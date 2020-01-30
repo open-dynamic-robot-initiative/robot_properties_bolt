@@ -27,13 +27,6 @@ find_package(catkin REQUIRED COMPONENTS
 build_xacro_files()
 
 ##############################
-# Setup the rqt perspectives #
-##############################
-
-#configure_file(${PROJECT_SOURCE_DIR}/rqt/bolt.perspective.in
-#        ${PROJECT_SOURCE_DIR}/rqt/bolt.perspective  @ONLY IMMEDIATE)
-
-##############################
 # Define the Catkin Package. #
 ##############################
 
@@ -49,4 +42,5 @@ catkin_python_setup()
 ##########################
 # building documentation #
 ##########################
+
 build_doxygen_documentation()

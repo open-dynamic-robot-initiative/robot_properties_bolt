@@ -55,7 +55,7 @@ class BoltAbstract(object):
         return joint_names
 
 
-class boltConfig(BoltAbstract):
+class BoltConfig(BoltAbstract):
     robot_family = "bolt"
     robot_name = "bolt"
 

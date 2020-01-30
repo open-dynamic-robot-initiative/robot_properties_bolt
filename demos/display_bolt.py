@@ -5,16 +5,16 @@ import pinocchio as se3
 import time
 import os
 
-from robot_properties_bolt.config import boltConfig
+from robot_properties_bolt.config import BoltConfig
 
 # Load the robot urdf.
-robot = boltConfig.buildRobotWrapper()
+robot = BoltConfig.buildRobotWrapper()
 
 # Setup the display (connection to gepetto viewer) and load the robot model.
 robot.initDisplay(loadModel=True)
 
 # Create a first initial position for the robot. Both legs are bent inwards.
-q = np.matrix(boltConfig.initial_configuration).T
+q = np.matrix(BoltConfig.initial_configuration).T
 
 # q[[4]] = 0.6
 # Turn the legs outside

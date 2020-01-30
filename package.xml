@@ -2,11 +2,11 @@
 <package>
     <name>robot_properties_bolt</name>
     <version>0.0.0</version>
-    <description>The robot_properties_bolt package</description>
+    <description>This package includes the URDF integration of the Bolt robot.</description>
 
-    <author email="edaneshmand@tuebingen.mpg.de">Elham Daneshmand</author>
-    <maintainer email="edaneshmand@tuebingen.mpg.de">Elham Daneshmand</maintainer>
-    <license>TODO</license>
+    <author email="exledh@gmail.com">Elham Daneshmand</author>
+    <maintainer email="exledh@gmail.com">Elham Daneshmand</maintainer>
+    <license>BSD 3-Clause</license>
 
     <buildtool_depend>catkin</buildtool_depend>
     <!-- This provide cmake macros to help building the project. -->

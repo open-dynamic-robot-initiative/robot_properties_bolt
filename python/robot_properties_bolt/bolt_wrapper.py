@@ -8,7 +8,7 @@ import pybullet as p
 import pinocchio as se3
 
 from py_pinocchio_bullet.wrapper import PinBulletWrapper
-from robot_properties_bolt.config import boltConfig
+from robot_properties_bolt.config import BoltConfig
 
 
 dt = 1e-3
@@ -34,7 +34,7 @@ class BoltRobot(PinBulletWrapper):
         robotStartPos = [0.,0,0.40]
         robotStartOrientation = p.getQuaternionFromEuler([0,0,0])
 
-        self.urdf_path = boltConfig.urdf_path
+        self.urdf_path = BoltConfig.urdf_path
         self.robotId = p.loadURDF(self.urdf_path, robotStartPos,
             robotStartOrientation, flags=p.URDF_USE_INERTIA_FROM_FILE,
             useFixedBase=False)
@@ -42,7 +42,7 @@ class BoltRobot(PinBulletWrapper):
 
         # Create the robot wrapper in pinocchio.
         package_dirs = [os.path.dirname(os.path.dirname(self.urdf_path)) + '/urdf']
-        self.pin_robot = boltConfig.buildRobotWrapper()
+        self.pin_robot = BoltConfig.buildRobotWrapper()
 
         # Query all the joints.
         num_joints = p.getNumJoints(self.robotId)
@@ -82,8 +82,8 @@ if __name__ == "__main__":
     tau = np.zeros(6)
 
     # Reset the robot to some initial state.
-    q0 = np.matrix(boltConfig.initial_configuration).T
-    dq0 = np.matrix(boltConfig.initial_velocity).T
+    q0 = np.matrix(BoltConfig.initial_configuration).T
+    dq0 = np.matrix(BoltConfig.initial_velocity).T
     robot.reset_state(q0, dq0)
 
 
