@@ -46,7 +46,7 @@ class BoltRobot(PinBulletWrapper):
         self.urdf_path = BoltConfig.urdf_path
         self.robotId = p.loadURDF(self.urdf_path, robotStartPos,
             robotStartOrientation, flags=p.URDF_USE_INERTIA_FROM_FILE,
-            useFixedBase=False)
+            useFixedBase=True)
         p.getBasePositionAndOrientation(self.robotId)
 
         # Create the robot wrapper in pinocchio.

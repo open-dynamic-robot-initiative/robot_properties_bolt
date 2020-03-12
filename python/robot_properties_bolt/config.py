@@ -45,7 +45,7 @@ class BoltAbstract(object):
     max_qref = pi
 
     base_link_name = 'base_link'
-    end_effector_names = ['HL_ANKLE', 'HR_ANKLE']
+    end_effector_names = ['FL_ANKLE', 'FR_ANKLE']
 
     @classmethod
     def buildRobotWrapper(cls):
