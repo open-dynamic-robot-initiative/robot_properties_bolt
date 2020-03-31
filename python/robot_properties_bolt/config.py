@@ -45,7 +45,7 @@ class BoltAbstract(object):
     max_qref = pi
 
     base_link_name = 'base_link'
-    end_effector_names = ['HL_ANKLE', 'HR_ANKLE']
+    end_effector_names = ['FL_ANKLE', 'FR_ANKLE']
 
     @classmethod
     def buildRobotWrapper(cls):
@@ -118,7 +118,7 @@ class BoltConfig(BoltAbstract):
         map_joint_limits[i] = [float(lb), float(ub)]
 
     # Define the initial state.
-    initial_configuration = [0., 0., 0.26487417, 0., 0., 0., 1., 0., -0.78539816, 1.57079633, 0., -0.78539816, 1.57079633]
+    initial_configuration = [0., 0., 0.26487417, 0., 0., 0., 1., -0.35, -0.78539816, 1.57079633, 0.35, -0.78539816, 1.57079633]
 
     #[0.2, 0., 0.2, 0., 0., 0., 1.] + 2*[0., 0.8, -1.6]
     initial_velocity = (6 + 6)*[0,]
