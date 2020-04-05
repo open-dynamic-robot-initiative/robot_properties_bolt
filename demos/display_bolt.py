@@ -29,7 +29,7 @@ if __name__ == "__main__":
     robot.initDisplay(loadModel=True)
 
     # Create a first initial position for the robot. Both legs are bent inwards.
-    q = np.matrix(BoltConfig.initial_configuration).T
+    q = BoltConfig.initial_configuration
 
     # q[[4]] = 0.6
     # Turn the legs outside

@@ -124,6 +124,6 @@ class BoltConfig(BoltAbstract):
     initial_velocity = (6 + 6)*[0,]
 
     q0 = zero(robot_model.nq)
-    q0[:] = np.asmatrix(initial_configuration).T
+    q0[:] = initial_configuration
     v0 = zero(robot_model.nv)
     a0 = zero(robot_model.nv)
