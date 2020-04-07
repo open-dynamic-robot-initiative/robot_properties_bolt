@@ -28,8 +28,8 @@ if __name__ == "__main__":
     vel = np.loadtxt("Velocity.txt")
 
     # Reset the robot to some initial state.
-    q0 = np.matrix(BoltConfig.initial_configuration).T
-    dq0 = np.matrix(BoltConfig.initial_velocity).T
+    q0 = BoltConfig.initial_configuration
+    dq0 = BoltConfig.initial_velocity
     robot.reset_state(q0, dq0)
 
     p.setTimeStep(0.001)

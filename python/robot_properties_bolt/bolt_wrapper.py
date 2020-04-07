@@ -65,18 +65,19 @@ class BoltRobot(PinBulletWrapper):
         for leg in ['FL', 'FR']:
             controlled_joints += [leg + '_HAA', leg + '_HFE', leg + '_KFE']
         self.joint_names = controlled_joints
+        self.end_effector_names = ['FL_ANKLE', 'FR_ANKLE']
 
 
         # Creates the wrapper by calling the super.__init__.
         super(BoltRobot, self).__init__(self.robotId, self.pin_robot,
             controlled_joints,
-            ['FL_ANKLE', 'FR_ANKLE']
+            self.end_effector_names
         )
 
     def forward_robot(self, q=None, dq=None):
-        if not q:
+        if q is None:
             q, dq = self.get_state()
-        elif not dq:
+        elif dq is None:
             raise ValueError('Need to provide q and dq or non of them.')
 
         self.pin_robot.forwardKinematics(q, dq)
@@ -91,8 +92,8 @@ if __name__ == "__main__":
     tau = np.zeros(6)
 
     # Reset the robot to some initial state.
-    q0 = np.matrix(BoltConfig.initial_configuration).T
-    dq0 = np.matrix(BoltConfig.initial_velocity).T
+    q0 = BoltConfig.initial_configuration
+    dq0 = BoltConfig.initial_velocity
     robot.reset_state(q0, dq0)
 
 

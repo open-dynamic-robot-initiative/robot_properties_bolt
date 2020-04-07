@@ -26,15 +26,15 @@ if __name__ == "__main__":
     robot = BoltConfig.buildRobotWrapper()
 
     # Setup the display (connection to gepetto viewer) and load the robot model.
-    robot.initDisplay(loadModel=True)
+    robot.initViewer(loadModel=True)
 
     # Create a first initial position for the robot. Both legs are bent inwards.
-    q = np.matrix(BoltConfig.initial_configuration).T
+    q = BoltConfig.initial_configuration
 
     # q[[4]] = 0.6
     # Turn the legs outside
-    q[[10]] = -0.5  # Right side of quadruped
-    q[[7]] = 0.5  # Left side of quadruped
+    q[10] = -0.5  # Right side of quadruped
+    q[7] = 0.5  # Left side of quadruped
 
     # Display the configuration in the viewer.
     robot.display(q)

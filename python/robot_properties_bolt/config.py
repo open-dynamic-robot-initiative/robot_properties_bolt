@@ -1,4 +1,4 @@
-## @namespace robot_properties_bolt.config
+# @namespace robot_properties_bolt.config
 """ This module includes configuration for the Bolt.
 
     @file config.py
@@ -14,6 +14,7 @@ from os.path import join, dirname
 import pinocchio as se3
 from pinocchio.utils import zero
 from pinocchio.robot_wrapper import RobotWrapper
+
 
 class BoltAbstract(object):
     """ Abstract class used for all Bolt robots. """
@@ -40,18 +41,19 @@ class BoltAbstract(object):
     max_control = max_current
 
     # ctrl_manager_current_to_control_gain I am not sure what it does so 1.0.
-    ctrl_manager_current_to_control_gain=1.0
+    ctrl_manager_current_to_control_gain = 1.0
 
     max_qref = pi
 
     base_link_name = 'base_link'
-    end_effector_names = ['HL_ANKLE', 'HR_ANKLE']
+    end_effector_names = ['FL_ANKLE', 'FR_ANKLE']
 
     @classmethod
     def buildRobotWrapper(cls):
         # Rebuild the robot wrapper instead of using the existing model to
         # also load the visuals.
-        robot = RobotWrapper.BuildFromURDF(cls.urdf_path, cls.meshes_path, se3.JointModelFreeFlyer())
+        robot = RobotWrapper.BuildFromURDF(
+            cls.urdf_path, cls.meshes_path, se3.JointModelFreeFlyer())
         robot.model.rotorInertia[6:] = cls.motor_inertia
         robot.model.rotorGearRatio[6:] = cls.motor_gear_ration
         return robot
@@ -118,12 +120,14 @@ class BoltConfig(BoltAbstract):
         map_joint_limits[i] = [float(lb), float(ub)]
 
     # Define the initial state.
-    initial_configuration = [0., 0., 0.26487417, 0., 0., 0., 1., 0., -0.78539816, 1.57079633, 0., -0.78539816, 1.57079633]
+    initial_configuration = np.array(
+        [0., 0., 0.26487417, 0., 0., 0., 1.,
+         -0.35, -0.78539816, 1.57079633, 0.35, -0.78539816, 1.57079633])
 
     #[0.2, 0., 0.2, 0., 0., 0., 1.] + 2*[0., 0.8, -1.6]
-    initial_velocity = (6 + 6)*[0,]
+    initial_velocity = (6 + 6)*[0, ]
 
-    q0 = zero(robot_model.nq)
-    q0[:] = np.asmatrix(initial_configuration).T
-    v0 = zero(robot_model.nv)
-    a0 = zero(robot_model.nv)
+    q0 = np.zeros(robot_model.nq)
+    q0[:] = initial_configuration
+    v0 = np.zeros(robot_model.nv)
+    a0 = np.zeros(robot_model.nv)
