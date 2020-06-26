@@ -7,6 +7,7 @@
 # @brief Define the interface between the control and the hardware
 # 
 
+
 is_real_robot: true
 device:
   name: "bolt"
@@ -38,15 +39,16 @@ device:
     ctrl_joint_torques:
       size: 6
 hardware_communication:
-  max_missed_control: 10
+  max_missed_control: 10000
   control_period: 1000000 # in nano second this means 1ms <=> 1kz
   maximum_time_for_user_cmd: 100000
   # Angle between the next index and the home position(joint_positions=12*[0.,])
   calibration:
     # 'FL_HAA', 'FL_HFE', 'FL_KFE', 'FR_HAA', 'FR_HFE', 'FR_KFE'
-    index_to_zero_angle: [-0.103810, -0.418661, -0.139920, -0.472622, -0.204885, -0.609037, ]
-  network_id: "ens4"
+    index_to_zero_angle: [-0.346, -0.206, -0.172, -0.687, -0.444, -0.369, ]
+  network_id: "ens3"
 
+debug_timer_history_length: 100000
 motor_I: 0.045     # The inertia of a single blmc_motor
 motor_KT: 0.025    # The Kt constant of the motor [Nm/A]: tau = I * Kt
 motor_gear_ratio: 9 # On the quadruped the gear ration is 1:9
