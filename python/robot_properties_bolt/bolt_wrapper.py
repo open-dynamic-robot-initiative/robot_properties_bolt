@@ -49,16 +49,17 @@ class BoltRobot(PinBulletWrapper):
             useFixedBase=False)
         p.getBasePositionAndOrientation(self.robotId)
 
+
         # Create the robot wrapper in pinocchio.
         package_dirs = [os.path.dirname(os.path.dirname(self.urdf_path)) + '/urdf']
         self.pin_robot = BoltConfig.buildRobotWrapper()
 
         # Query all the joints.
         num_joints = p.getNumJoints(self.robotId)
-
+        
         for ji in range(num_joints):
             p.changeDynamics(self.robotId, ji, linearDamping=.04,
-                angularDamping=0.04, restitution=0.0, lateralFriction=0.5)
+            angularDamping=0.04, restitution=0.0, lateralFriction=1.0, spinningFriction = 10000.5)
 
         self.base_link_name = "base_link"
         controlled_joints = []
@@ -84,6 +85,13 @@ class BoltRobot(PinBulletWrapper):
         self.pin_robot.computeJointJacobians(q)
         self.pin_robot.framesForwardKinematics(q)
         self.pin_robot.centroidalMomentum(q, dq)
+
+    def start_recording(self, file_name):
+        self.file_name = file_name
+        p.startStateLogging(p.STATE_LOGGING_VIDEO_MP4, self.file_name)
+
+    def stop_recording(self):
+        p.stopStateLogging(p.STATE_LOGGING_VIDEO_MP4, self.file_name)
 
 
 if __name__ == "__main__":
