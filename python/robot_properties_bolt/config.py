@@ -122,7 +122,7 @@ class BoltConfig(BoltAbstract):
     # Define the initial state.
     initial_configuration = np.array(
         [0., 0., 0.3, 0., 0., 0., 1.,
-         -0.35, -0.78539816, 1.57079633, 0.35, -0.78539816, 1.57079633])
+         -0.35, -0.78539816, 1.67079633, 0.35, -0.78539816, 1.67079633])
 
     initial_velocity = (6 + 6)*[0, ]
     q0 = np.zeros(robot_model.nq)

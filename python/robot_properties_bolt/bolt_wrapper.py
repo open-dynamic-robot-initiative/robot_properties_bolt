@@ -43,6 +43,9 @@ class BoltRobot(PinBulletWrapper):
         robotStartPos = [0., 0, 0.40]
         robotStartOrientation = p.getQuaternionFromEuler([0, 0, 0])
 
+        p.configureDebugVisualizer(p.COV_ENABLE_GUI, 0)
+        p.resetDebugVisualizerCamera( cameraDistance=1.1, cameraYaw=50, cameraPitch=-25, cameraTargetPosition=[-.5,0,0])
+
         self.urdf_path = BoltConfig.urdf_path
         self.robotId = p.loadURDF(self.urdf_path, robotStartPos,
             robotStartOrientation, flags=p.URDF_USE_INERTIA_FROM_FILE,
@@ -59,7 +62,7 @@ class BoltRobot(PinBulletWrapper):
         
         for ji in range(num_joints):
             p.changeDynamics(self.robotId, ji, linearDamping=.04,
-            angularDamping=0.04, restitution=0.0, lateralFriction=1.0, spinningFriction = 10000.5)
+            angularDamping=0.04, restitution=0.0, lateralFriction=0.5, spinningFriction = 1.5)
 
         self.base_link_name = "base_link"
         controlled_joints = []
