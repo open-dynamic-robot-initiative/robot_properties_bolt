@@ -62,7 +62,7 @@ class BoltRobot(PinBulletWrapper):
         
         for ji in range(num_joints):
             p.changeDynamics(self.robotId, ji, linearDamping=.04,
-            angularDamping=0.04, restitution=0.0, lateralFriction=0.5, spinningFriction = 1.5)
+            angularDamping=0.04, restitution=0.0, lateralFriction=2.5, spinningFriction = 1.5)
 
         self.base_link_name = "base_link"
         controlled_joints = []
