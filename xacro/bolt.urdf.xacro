@@ -14,12 +14,16 @@
   <link name="base_link">
     <!-- BASE LINK INERTIAL -->
     <inertial>
-        <origin xyz="0 0 0" rpy="0 0 0" />
-        <mass value="0.6"/>
+        <origin xyz="-0.00245656 -0.00078880 0.03308090" rpy="0 0 0" />
+        <mass value="0.61436936"/>
         <!-- The base is extremely symmetrical. -->
-        <inertia ixx="0.00578574" ixy="0.0" ixz="0.0"
-                                  iyy="0.01938108" iyz="0.0"
-                                                   izz="0.02476124"
+        <!--inertia ixx="0.00578574" ixy="0.0" ixz="0.0"
+                 iyy="0.01938108" iyz="0.0"
+                 izz="0.02476124"
+        /-->
+        <inertia ixx="0.00132170" ixy="0.00000117" ixz="0.0"
+                                   iyy="0.00144035" iyz="-0.00001139"
+                                                    izz="0.00198196"
         />
     </inertial>
     <!-- BASE LINK VISUAL -->
