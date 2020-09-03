@@ -35,6 +35,16 @@ device:
       size: 3
     motor_board_errors:
       size: 3
+    base_accelerometer:
+      size: 3
+    base_gyroscope:
+      size: 3
+    base_attitude:
+      size: 3
+    base_linear_acceleration:
+      size: 3
+    base_attitude_quaternion:
+      size: 4
   controls:
     ctrl_joint_torques:
       size: 6
