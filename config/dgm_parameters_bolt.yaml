@@ -57,8 +57,9 @@ hardware_communication:
     # 'FL_HAA', 'FL_HFE', 'FL_KFE', 'FR_HAA', 'FR_HFE', 'FR_KFE'
     # index_to_zero_angle: [-0.103810, -0.418661, -0.139920, -0.472622, -0.204885, -0.609037, ]
     # index_to_zero_angle: [-0.346, -0.206, -0.172, -0.687, -0.444, -0.369, ]
-    index_to_zero_angle: [-0.243, -0.225, -0.183, -0.254, -0.445, -0.349, ]
-  network_id: "ens3"
+    # index_to_zero_angle: [-0.275, -0.555, -0.605, -0.766, -0.423, -0.703, ]
+    index_to_zero_angle: [-0.636, -0.570, -0.596, -0.748, -0.435, 0.032, ]#[-0.305, -0.564, -0.587, -0.777, -0.425, -0.702, ]
+  network_id: "ens4"
 
 debug_timer_history_length: 100000
 motor_I: 0.045     # The inertia of a single blmc_motor

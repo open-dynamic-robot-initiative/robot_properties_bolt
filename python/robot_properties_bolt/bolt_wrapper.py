@@ -30,7 +30,7 @@ class BoltRobot(PinBulletWrapper):
         p.setPhysicsEngineParameter(fixedTimeStep=dt, numSubSteps=1)
         return physicsClient
 
-    def __init__(self, physicsClient=None):
+    def __init__(self, physicsClient=None, useFixedBase=False):
         if physicsClient is None:
             self.physicsClient = self.initPhysicsClient()
 
@@ -46,7 +46,7 @@ class BoltRobot(PinBulletWrapper):
         self.urdf_path = BoltConfig.urdf_path
         self.robotId = p.loadURDF(self.urdf_path, robotStartPos,
             robotStartOrientation, flags=p.URDF_USE_INERTIA_FROM_FILE,
-            useFixedBase=False)
+            useFixedBase=useFixedBase)
         p.getBasePositionAndOrientation(self.robotId)
 
         # Create the robot wrapper in pinocchio.
