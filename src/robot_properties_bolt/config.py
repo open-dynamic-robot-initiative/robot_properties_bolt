@@ -9,7 +9,7 @@
 
 import numpy as np
 from math import pi
-import rospkg
+from ament_index_python.packages import get_package_share_directory
 from os.path import join, dirname
 import pinocchio as se3
 from pinocchio.utils import zero
@@ -71,17 +71,17 @@ class BoltConfig(BoltAbstract):
 
     # Here we use the same urdf as for the quadruped but without the freeflyer.
     urdf_path = (
-        join(rospkg.RosPack().get_path("robot_properties_" + robot_family),
+        join(get_package_share_directory("robot_properties_" + robot_family),
              "urdf",
              robot_name + ".urdf")
     )
 
     meshes_path = [
-        dirname(rospkg.RosPack().get_path("robot_properties_" + robot_family))
+        dirname(get_package_share_directory("robot_properties_" + robot_family))
     ]
 
     yaml_path = (
-        join(rospkg.RosPack().get_path("robot_properties_" + robot_family),
+        join(get_package_share_directory("robot_properties_" + robot_family),
              "config",
              "dgm_parameters_bolt.yaml")
     )
