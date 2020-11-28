@@ -8,15 +8,11 @@
 """
 
 import numpy as np
-
 import time
-
 import os
-import rospkg
-import pybullet as p
-import pinocchio as se3
-
-from py_pinocchio_bullet.wrapper import PinBulletWrapper
+import pybullet
+from ament_index_python.packages import get_package_share_directory
+from pinocchio_bullet.wrapper import PinBulletWrapper
 from robot_properties_bolt.config import BoltConfig
 
 
@@ -25,9 +21,9 @@ dt = 1e-3
 class BoltRobot(PinBulletWrapper):
     @staticmethod
     def initPhysicsClient():
-        physicsClient = p.connect(p.GUI)
-        p.setGravity(0,0, -9.81)
-        p.setPhysicsEngineParameter(fixedTimeStep=dt, numSubSteps=1)
+        physicsClient = pybullet.connect(pybullet.GUI)
+        pybullet.setGravity(0,0, -9.81)
+        pybullet.setPhysicsEngineParameter(fixedTimeStep=dt, numSubSteps=1)
         return physicsClient
 
     def __init__(self, physicsClient=None, useFixedBase=False):
@@ -35,29 +31,29 @@ class BoltRobot(PinBulletWrapper):
             self.physicsClient = self.initPhysicsClient()
 
         # Load the plain.
-        plain_urdf = (rospkg.RosPack().get_path("robot_properties_bolt") +
+        plain_urdf = (get_package_share_directory("robot_properties_bolt") +
                       "/urdf/plane_with_restitution.urdf")
-        self.planeId = p.loadURDF(plain_urdf, useFixedBase=True)
+        self.planeId = pybullet.loadURDF(plain_urdf, useFixedBase=True)
 
         # Load the robot
         robotStartPos = [0., 0, 0.40]
-        robotStartOrientation = p.getQuaternionFromEuler([0, 0, 0])
+        robotStartOrientation = pybullet.getQuaternionFromEuler([0, 0, 0])
 
         self.urdf_path = BoltConfig.urdf_path
-        self.robotId = p.loadURDF(self.urdf_path, robotStartPos,
-            robotStartOrientation, flags=p.URDF_USE_INERTIA_FROM_FILE,
+        self.robotId = pybullet.loadURDF(self.urdf_path, robotStartPos,
+            robotStartOrientation, flags=pybullet.URDF_USE_INERTIA_FROM_FILE,
             useFixedBase=useFixedBase)
-        p.getBasePositionAndOrientation(self.robotId)
+        pybullet.getBasePositionAndOrientation(self.robotId)
 
         # Create the robot wrapper in pinocchio.
         package_dirs = [os.path.dirname(os.path.dirname(self.urdf_path)) + '/urdf']
         self.pin_robot = BoltConfig.buildRobotWrapper()
 
         # Query all the joints.
-        num_joints = p.getNumJoints(self.robotId)
+        num_joints = pybullet.getNumJoints(self.robotId)
 
         for ji in range(num_joints):
-            p.changeDynamics(self.robotId, ji, linearDamping=.04,
+            pybullet.changeDynamics(self.robotId, ji, linearDamping=.04,
                 angularDamping=0.04, restitution=0.0, lateralFriction=0.5)
 
         self.base_link_name = "base_link"
@@ -84,33 +80,3 @@ class BoltRobot(PinBulletWrapper):
         self.pin_robot.computeJointJacobians(q)
         self.pin_robot.framesForwardKinematics(q)
         self.pin_robot.centroidalMomentum(q, dq)
-
-
-if __name__ == "__main__":
-    # Create a robot instance. This initializes the simulator as well.
-    robot = BoltRobot()
-    tau = np.zeros(6)
-
-    # Reset the robot to some initial state.
-    q0 = BoltConfig.initial_configuration
-    dq0 = BoltConfig.initial_velocity
-    robot.reset_state(q0, dq0)
-
-
-    # Run the simulator for 100 steps
-    for i in range(100):
-        # TODO: Implement a controller here.
-        robot.send_joint_command(tau)
-
-        # Step the simulator.
-        p.stepSimulation()
-        time.sleep(0.001) # You can use sleep here if you want to slow down the replay
-
-    # Read the final state and forces after the stepping.
-    q, dq = robot.get_state()
-    active_eff, forces = robot.get_force()
-    print('q', q)
-    print('dq', dq)
-    print('active eff', active_eff)
-    print('forces', forces)
-

@@ -15,7 +15,7 @@ import rospkg
 import pybullet as p
 import pinocchio as se3
 
-from py_pinocchio_bullet.wrapper import PinBulletWrapper
+from pinocchio_bullet.wrapper import PinBulletWrapper
 from robot_properties_bolt.config import BoltConfig
 from robot_properties_bolt.bolt_wrapper import BoltRobot
 
