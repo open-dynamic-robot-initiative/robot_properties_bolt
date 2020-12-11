@@ -1,0 +1,14 @@
+# contains information about the frames between which impedance controllers must be created
+
+impedance_controllers:
+  FL_imp:
+    frame_root_name: FL_HFE
+    frame_end_name: FL_ANKLE
+    is_eeff: 1.0             #Whether or not an impdance controller is associated with a specific end-effector
+    start_column: 6         #Start column of jacobian in pinocchio. In the future this should be found when setting up the controllers instead of hardcoded
+  FR_imp:
+    frame_root_name: FR_HFE
+    frame_end_name: FR_ANKLE
+    is_eeff: 1.0
+    start_column: 9
+

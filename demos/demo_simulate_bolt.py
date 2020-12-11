@@ -18,12 +18,15 @@ Basic loading and visualization for the Bolt robot using gepetto viewer.
 
 import time
 import numpy as np
+from bullet_utils.env import BulletEnvWithGround
 from robot_properties_bolt.bolt_wrapper import BoltRobot, BoltConfig
+import pybullet as p
 
 
 if __name__ == "__main__":
     # Create a robot instance. This initializes the simulator as well.
-    robot = BoltRobot()
+    env = BulletEnvWithGround(p.GUI)
+    robot = env.add_robot(BoltRobot)
     tau = np.zeros(robot.nb_dof)
 
     # Reset the robot to some initial state.
@@ -37,8 +40,7 @@ if __name__ == "__main__":
         robot.send_joint_command(tau)
 
         # Step the simulator.
-        robot.step_simulation()
-        time.sleep(0.001) # You can use sleep here if you want to slow down the replay
+        env.step(sleep=True) # You can use sleep here if you want to slow down the replay
 
     # Read the final state and forces after the stepping.
     q, dq = robot.get_state()
