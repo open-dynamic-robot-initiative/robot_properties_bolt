@@ -14,19 +14,15 @@ from xacro.color import warning, error, message
 from xacro.xmlutils import *
 from xacro.cli import process_args
 
-try: # python 2
-    _basestr = basestring
-    encoding = { 'encoding': 'utf-8' }
-except NameError: # python 3
-    _basestr = str
-    unicode = str
-    encoding = {}
+_basestr = str
+unicode = str
+encoding = {}
 
 def find_paths(robot_name, robot_family="bolt"):
     with importlib_resources.path(__package__, "utils.py") as p:
             package_dir = p.parent.absolute()
     
-    resources_dir = package_dir/"resources"
+    resources_dir = package_dir/("robot_properties_" + robot_family)
     dgm_yaml_path = resources_dir/"dynamic_graph_manager"/("dgm_parameters_" + robot_name + ".yaml")
     urdf_path = resources_dir/(robot_name + ".urdf")
     srdf_path = resources_dir/"srdf"/(robot_family + ".srdf")
@@ -35,7 +31,8 @@ def find_paths(robot_name, robot_family="bolt"):
     if not urdf_path.exists():
         build_xacro_files(resources_dir)
 
-    paths = {"resources":str(resources_dir),
+    paths = {"package":str(package_dir),
+             "resources":str(resources_dir),
              "dgm_yaml":str(dgm_yaml_path),
              "srdf":str(srdf_path),
              "urdf":str(urdf_path),

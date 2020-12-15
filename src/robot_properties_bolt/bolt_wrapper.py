@@ -13,6 +13,7 @@ import os
 import pybullet
 from bullet_utils.wrapper import PinBulletWrapper
 from robot_properties_bolt.config import BoltConfig
+from robot_properties_solo.utils import find_paths
 
 
 dt = 1e-3
@@ -27,6 +28,7 @@ class BoltRobot(PinBulletWrapper):
         if orn is None:
             orn = pybullet.getQuaternionFromEuler([0, 0, 0])
 
+        pybullet.setAdditionalSearchPath(BoltConfig.paths["package"])
         self.urdf_path = BoltConfig.urdf_path
         self.robotId = pybullet.loadURDF(
             self.urdf_path,

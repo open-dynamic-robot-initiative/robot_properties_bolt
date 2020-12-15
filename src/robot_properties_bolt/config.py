@@ -71,8 +71,8 @@ class BoltConfig(BoltAbstract):
 
     # Here we use the same urdf as for the quadruped but without the freeflyer.
     paths = find_paths(robot_name)
-    meshes_path = paths["resources"]
-    yaml_path = paths["dgm_yaml"]
+    meshes_path = paths["package"]
+    dgm_yaml_path = paths["dgm_yaml"]
     urdf_path = paths["urdf"]
 
     # The inertia of a single blmc_motor.
