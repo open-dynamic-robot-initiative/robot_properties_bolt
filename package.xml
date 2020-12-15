@@ -20,7 +20,7 @@
     <buildtool_depend>ament_python</buildtool_depend>
 
     <depend>pybullet</depend>
-    <depend>pinocchio_bullet</depend>
+    <depend>bullet_utils</depend>
     <depend>pinocchio</depend>
     <depend>xacro</depend>
 
