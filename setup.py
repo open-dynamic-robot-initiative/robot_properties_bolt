@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
 import sys
-from os import path, walk
+from os import path, walk, getcwd
 from setuptools import setup, find_packages
 
 def print_error(*args, **kwargs):
@@ -29,7 +29,7 @@ def find_resources(package_name):
 package_name = "robot_properties_bolt"
 
 # Long description from the readme.
-with open("readme.md", "r") as fh:
+with open(path.join(path.dirname(path.realpath(__file__)), "readme.md"), "r") as fh:
     long_description = fh.read()
 
 # Find the resource files.
