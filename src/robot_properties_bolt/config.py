@@ -74,6 +74,7 @@ class BoltConfig(BoltAbstract):
     meshes_path = paths["package"]
     dgm_yaml_path = paths["dgm_yaml"]
     urdf_path = paths["urdf"]
+    ctrl_path = paths["imp_ctrl_yaml"]
 
     # The inertia of a single blmc_motor.
     motor_inertia = 0.0000045
@@ -95,6 +96,17 @@ class BoltConfig(BoltAbstract):
     # joints.
     nb_joints = robot_model.nv - 6
 
+    # pinocchio model.
+    pin_robot_wrapper = RobotWrapper.BuildFromURDF(
+        urdf_path, meshes_path, se3.JointModelFreeFlyer()
+    )
+    # End effectors informations
+    robot_model = pin_robot_wrapper.model
+    end_eff_ids = []
+    for leg in ["FL", "FR"]:
+        end_eff_ids.append(robot_model.getFrameId(leg + "_ANKLE"))
+    nb_ee = len(end_eff_ids)
+
     joint_names = ['FL_HAA', 'FL_HFE', 'FL_KFE', 'FR_HAA', 'FR_HFE', 'FR_KFE']
 
     # Mapping between the ctrl vector in the device and the urdf indexes.
@@ -110,8 +122,8 @@ class BoltConfig(BoltAbstract):
 
     # Define the initial state.
     initial_configuration = np.array(
-        [0., 0., 0.26487417, 0., 0., 0., 1.,
-         -0.35, 0.78539816, -1.57079633, 0.35, 0.78539816, -1.57079633])
+        [0., 0., 0.35487417, 0., 0., 0., 1.,
+         -0.3, 0.78539816, -1.57079633, 0.3, 0.78539816, -1.57079633])
 
     #[0.2, 0., 0.2, 0., 0., 0., 1.] + 2*[0., 0.8, -1.6]
     initial_velocity = (6 + 6)*[0, ]
