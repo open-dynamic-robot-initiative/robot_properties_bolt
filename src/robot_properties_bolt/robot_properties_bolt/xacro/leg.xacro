@@ -298,7 +298,7 @@
     </link> <!-- END LOWER LEG LINK -->
 
     <!-- KFE: Joint between the upper leg and the lower leg -->
-    <joint name="${prefix}_ANKLE" type="fixed">
+    <joint name="${prefix}_ANKLE" type="revolute">
       <parent link="${prefix}_LOWER_LEG"/>
       <child link="${prefix}_FOOT"/>
       <!-- Joint placement -->
@@ -308,6 +308,8 @@
       <xacro:if value="${is_right}">
         <origin xyz="0 ${-KFE_2_FOOT_y} ${-KFE_2_FOOT_z}" rpy="0 0 0" />
       </xacro:if>
+      <!-- joints rotates around the y-axis -->
+      <axis xyz="0 1 0"/>
       <!-- Limits (usefull?) -->
       <limit effort="1000" lower="-10" upper="10" velocity="1000"/>
       <!-- pybullet simulation parameters -->
@@ -319,16 +321,18 @@
       <!-- This link is symmetrical left or right -->
       <inertial>
         <origin xyz="0 0 0.00035767" rpy="0 0 0" />
-        <mass value="0.00000000"/>
+        <mass value="0.00010"/>
         <inertia ixx="0.00000057" ixy="0.0"         ixz="0.0"
                  iyy="0.00000084" iyz="0.0"
                  izz="0.00000053"/>
       </inertial>
       <!-- FOOT VISUAL -->
       <visual>
-        <origin xyz="0 0 0" rpy="0 0 0" />
+<!--        <origin xyz="0 0 0" rpy="0 0 0" />-->
+        <origin xyz="0 0 -0.01" rpy="0 2.35 0" />
         <geometry>
-          <mesh filename="package://robot_properties_bolt/meshes/${mesh_ext}/bolt_foot.${mesh_ext}"/>
+          <cylinder length="0.06" radius="0.0085"/>
+<!--          <mesh filename="package://robot_properties_bolt/meshes/${mesh_ext}/bolt_foot.${mesh_ext}"/>-->
         </geometry>
         <material name="${color_name}">
           <color rgba="${color} ${opacity}"/>
@@ -336,9 +340,11 @@
       </visual>
       <!-- FOOT COLLISION -->
       <collision>
-        <origin xyz="0 0 0" rpy="0 0 0" />
+        <origin xyz="0 0 -0.01" rpy="0 2.35 0." />
+<!--        <origin xyz="0 0 0.0" rpy="0 0. 0." />-->
         <geometry>
-          <mesh filename="package://robot_properties_bolt/meshes/${mesh_ext}/bolt_foot.${mesh_ext}"/>
+          <cylinder length="0.06" radius="0.0085"/>
+<!--          <mesh filename="package://robot_properties_bolt/meshes/${mesh_ext}/bolt_foot.${mesh_ext}"/>-->
         </geometry>
         <material name="${color_name}">
           <color rgba="${color} ${opacity}"/>

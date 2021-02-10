@@ -51,7 +51,7 @@ class BoltRobot(PinBulletWrapper):
         self.end_effector_names = []
         controlled_joints = []
         for leg in ['FL', 'FR']:
-            controlled_joints += [leg + '_HAA', leg + '_HFE', leg + '_KFE']
+            controlled_joints += [leg + '_HAA', leg + '_HFE', leg + '_KFE', leg + '_ANKLE']
             self.end_eff_ids.append(self.pin_robot.model.getFrameId(leg + "_ANKLE"))
             self.end_effector_names.append(leg + "_ANKLE")
 

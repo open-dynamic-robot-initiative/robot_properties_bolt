@@ -10,5 +10,5 @@ impedance_controllers:
     frame_root_name: FR_HFE
     frame_end_name: FR_ANKLE
     is_eeff: 1.0
-    start_column: 9
+    start_column: 10
 
