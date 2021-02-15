@@ -6,9 +6,11 @@ impedance_controllers:
     frame_end_name: FL_ANKLE
     is_eeff: 1.0             #Whether or not an impdance controller is associated with a specific end-effector
     start_column: 6         #Start column of jacobian in pinocchio. In the future this should be found when setting up the controllers instead of hardcoded
+    active_joints: [True, True, True, False]
   FR_imp:
     frame_root_name: FR_HFE
     frame_end_name: FR_ANKLE
     is_eeff: 1.0
     start_column: 10
+    active_joints: [True, True, True, False]
 
