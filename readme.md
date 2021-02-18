@@ -66,6 +66,8 @@ pip3 install .
 - Avadesh Meduri
 - Julian Viereck
 - Huaijiang Zhu
+- Majid Khadiv
+- Elham Daneshmand
 
 ### Copyrights
 
