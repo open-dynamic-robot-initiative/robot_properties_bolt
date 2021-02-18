@@ -1,3 +1,6 @@
+# urdfs
+*.urdf
+
 # Mac
 .DS_Store
 
