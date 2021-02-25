@@ -1,0 +1,61 @@
+#
+# Bolt driver parameterization
+#
+
+#
+# Map of the joints:
+#
+# +----------|------------|---------|------------|-------------+
+# + joint_id | joint_name | udriver | motor_port | motor_index +
+# +==========|============|=========|============|=============+
+# +    0     |   L_HAA    |   0     |    0       |     0       +
+# +----------|------------|---------|------------|-------------+
+# +    1     |   L_HFE    |   1     |    1       |     3       +
+# +----------|------------|---------|------------|-------------+
+# +    2     |   L_KFE    |   1     |    0       |     2       +
+# +----------|------------|---------|------------|-------------+
+# +    3     |   R_HAA    |   0     |    1       |     1       +
+# +----------|------------|---------|------------|-------------+
+# +    4     |   R_HFE    |   2     |    1       |     5       +
+# +----------|------------|---------|------------|-------------+
+# +    5     |   R_KFE    |   2     |    0       |     4       +
+# +----------|------------|---------|------------|-------------+
+#
+
+robot:
+    interface: ens4
+    joint_modules:
+        motor_numbers: [0, 3, 2, 1, 5, 4]
+        motor_constants: 0.025
+        gear_ratios: 9.
+        max_currents: 12.
+        reverse_polarities: [
+            true, true, true, true, false, false
+        ]
+        # Here is -2 * pi
+        lower_joint_limits: [
+            -6.28, -6.28, -6.28, -6.28, -6.28, -6.28
+        ]
+        # Here is +2 * pi
+        upper_joint_limits: [
+            +6.28, +6.28, +6.28, +6.28, +6.28, +6.28
+        ]
+        max_joint_velocities: 80.
+        safety_damping: 0.5
+    imu:
+        rotate_vector: [1, 2, 3]
+        orientation_vector: [1, 2, 3, 4]
+
+#
+# Joint calibrator parameters.
+#
+joint_calibrator:
+    # Can be either POS, NEG, ALT or AUTO
+    search_methods: [
+      POS, POS, POS, NEG, POS, POS
+    ]
+    position_offsets: [0.039, -0.290, -0.465, -0.766, -0.435, -0.449]
+    Kp: 3.
+    Kd: 0.05
+    T: 1.
+    dt: 0.001
