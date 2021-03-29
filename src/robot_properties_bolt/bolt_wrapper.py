@@ -1,4 +1,4 @@
-## @namespace robot_properties_bolt.bolt_wrapper
+# @namespace robot_properties_bolt.bolt_wrapper
 """ This module define the Bolt robot instance. This initializes
     the simulator as well.
 
@@ -13,14 +13,13 @@ import os
 import pybullet
 from bullet_utils.wrapper import PinBulletWrapper
 from robot_properties_bolt.config import BoltConfig
-from robot_properties_solo.utils import find_paths
-
 
 dt = 1e-3
 
+
 class BoltRobot(PinBulletWrapper):
 
-    def __init__(self, pos=None, orn=None):
+    def __init__(self, pos=None, orn=None, init_sliders_pose=4*[0]):
 
         # Load the robot
         if pos is None:
@@ -36,7 +35,7 @@ class BoltRobot(PinBulletWrapper):
             flags=pybullet.URDF_USE_INERTIA_FROM_FILE,
             useFixedBase=False,
         )
-        
+
         self.pin_robot = BoltConfig.buildRobotWrapper()
 
         # Query all the joints.
@@ -44,15 +43,30 @@ class BoltRobot(PinBulletWrapper):
 
         for ji in range(num_joints):
             pybullet.changeDynamics(self.robotId, ji, linearDamping=.04,
-                angularDamping=0.04, restitution=0.0, lateralFriction=0.5)
+                                    angularDamping=0.04, restitution=0.0, lateralFriction=0.5)
+
+        self.slider_a = pybullet.addUserDebugParameter(
+            "a", 0, 1, init_sliders_pose[0]
+        )
+        self.slider_b = pybullet.addUserDebugParameter(
+            "b", 0, 1, init_sliders_pose[1]
+        )
+        self.slider_c = pybullet.addUserDebugParameter(
+            "c", 0, 1, init_sliders_pose[2]
+        )
+        self.slider_d = pybullet.addUserDebugParameter(
+            "d", 0, 1, init_sliders_pose[3]
+        )
 
         self.base_link_name = "base_link"
         self.end_eff_ids = []
         self.end_effector_names = []
         controlled_joints = []
         for leg in ['FL', 'FR']:
-            controlled_joints += [leg + '_HAA', leg + '_HFE', leg + '_KFE', leg + '_ANKLE']
-            self.end_eff_ids.append(self.pin_robot.model.getFrameId(leg + "_ANKLE"))
+            controlled_joints += [leg + '_HAA', leg +
+                                  '_HFE', leg + '_KFE', leg + '_ANKLE']
+            self.end_eff_ids.append(
+                self.pin_robot.model.getFrameId(leg + "_ANKLE"))
             self.end_effector_names.append(leg + "_ANKLE")
 
         self.joint_names = controlled_joints
@@ -60,9 +74,19 @@ class BoltRobot(PinBulletWrapper):
 
         # Creates the wrapper by calling the super.__init__.
         super(BoltRobot, self).__init__(self.robotId, self.pin_robot,
-            controlled_joints,
-            self.end_effector_names
-        )
+                                        controlled_joints,
+                                        self.end_effector_names
+                                        )
+
+    def get_slider_position(self, letter):
+        if letter == "a":
+            return pybullet.readUserDebugParameter(self.slider_a)
+        if letter == "b":
+            return pybullet.readUserDebugParameter(self.slider_b)
+        if letter == "c":
+            return pybullet.readUserDebugParameter(self.slider_c)
+        if letter == "d":
+            return pybullet.readUserDebugParameter(self.slider_d)
 
     def forward_robot(self, q=None, dq=None):
         if q is None:

@@ -3,17 +3,16 @@
 
 Basic loading and visualization for the Bolt robot using gepetto viewer.
 
-@file display_bolt.py
-@copyright Copyright (c) 2020,
-           New York University and Max Planck Gesellschaft,
-           License BSD-3-Clause
-@example display_bolt.py
-- 1. Building the workspace by executing `catkin build` in the workspace.
-- 2. "source ./devel/setup.bash" is called from the root of the catkin
+License: BSD 3-Clause License
+Copyright (C) 2018-2021, New York University , Max Planck Gesellschaft
+Copyright note valid unless otherwise stated in individual files.
+All rights reserved.
+
+- 1. Building the workspace by executing `colcon build` in the workspace.
+- 2. "source ./install/setup.bash" is called from the root of the catkin
      workspace.
-- 3. Run the demo by either:
-    - 3.1. `python3 display_bolt.py`
-    - 3.2. `cd /path/to/robot_properties_bolt/` ; `./demos/display_bolt.py`
+- 3. Run the demo by: `python3 display_bolt.py`
+
 """
 
 import time

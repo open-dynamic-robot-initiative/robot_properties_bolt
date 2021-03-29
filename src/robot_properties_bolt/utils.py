@@ -25,6 +25,7 @@ def find_paths(robot_name, robot_family="bolt"):
     resources_dir = package_dir/("robot_properties_" + robot_family)
     dgm_yaml_path = resources_dir/"dynamic_graph_manager"/("dgm_parameters_" + robot_name + ".yaml")
     urdf_path = resources_dir/(robot_name + ".urdf")
+    simu_urdf_path = resources_dir/"bolt_passive_ankle.urdf"
     srdf_path = resources_dir/"srdf"/(robot_family + ".srdf")
     ctrl_path = resources_dir/"impedance_ctrl.yaml"
 
@@ -36,6 +37,7 @@ def find_paths(robot_name, robot_family="bolt"):
              "dgm_yaml":str(dgm_yaml_path),
              "srdf":str(srdf_path),
              "urdf":str(urdf_path),
+             "simu_urdf":str(simu_urdf_path),
              "imp_ctrl_yaml":str(ctrl_path)}
 
     return paths
@@ -68,6 +70,7 @@ def build_xacro_files(resources_dir):
 
 
 def build_single_xacro_file(input_path, output_path):
+    print("building xacro file (", input_path , ") into (" , output_path, ")")
     try:
         # open and process file
         doc = process_file(input_path)

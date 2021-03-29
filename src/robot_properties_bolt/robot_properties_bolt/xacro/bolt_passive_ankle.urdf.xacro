@@ -10,7 +10,7 @@
   <xacro:property name="color" value="0.8 0.8 0.8" />
   <xacro:property name="opacity" value="1.0" />
   <xacro:property name="new_leg" value="true" />
-  <xacro:property name="has_passive_ankle" value="false" />
+  <xacro:property name="has_passive_ankle" value="true" />
 
   <!-- Include the legs -->
   <xacro:include filename="bolt.xacro"/>
