@@ -58,6 +58,16 @@ class BoltAbstract(object):
         robot.model.rotorGearRatio[6:] = cls.motor_gear_ration
         return robot
 
+    @classmethod
+    def buildSimuRobotWrapper(cls):
+        # Rebuild the robot wrapper instead of using the existing model to
+        # also load the visuals.
+        robot = RobotWrapper.BuildFromURDF(
+            cls.simu_urdf_path, cls.meshes_path, se3.JointModelFreeFlyer())
+        robot.model.rotorInertia[6:] = cls.motor_inertia
+        robot.model.rotorGearRatio[6:] = cls.motor_gear_ration
+        return robot
+
     def joint_name_in_single_string(self):
         joint_names = ""
         for name in self.robot_model.names[2:]:
@@ -73,6 +83,7 @@ class BoltConfig(BoltAbstract):
     paths = find_paths(robot_name)
     meshes_path = paths["package"]
     dgm_yaml_path = paths["dgm_yaml"]
+    simu_urdf_path = paths["simu_urdf"]
     urdf_path = paths["urdf"]
     ctrl_path = paths["imp_ctrl_yaml"]
 
@@ -123,12 +134,12 @@ class BoltConfig(BoltAbstract):
     # Define the initial state.
     initial_configuration = np.array(
         [0., 0., 0.35487417, 0., 0., 0., 1.,
-         -0.3, 0.78539816, -1.57079633, 0., 0.3, 0.78539816, -1.57079633, 0.])
+         -0.3, 0.78539816, -1.57079633, 0.3, 0.78539816, -1.57079633])
 
-    #[0.2, 0., 0.2, 0., 0., 0., 1.] + 2*[0., 0.8, -1.6]
-    initial_velocity = (6 + 8)*[0, ]
+    initial_velocity = (6 + 6)*[0, ]
 
     q0 = np.zeros(robot_model.nq)
     q0[:] = initial_configuration
     v0 = np.zeros(robot_model.nv)
+    v0[:] = initial_velocity
     a0 = np.zeros(robot_model.nv)

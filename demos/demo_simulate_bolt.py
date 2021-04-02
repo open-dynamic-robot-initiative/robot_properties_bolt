@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+#!/usr/bin/env python
 """demo_simulate_bolt
 
 Basic loading and visualization for the Bolt robot using gepetto viewer.
@@ -15,37 +15,52 @@ All rights reserved.
 
 """
 
-import time
+from math import sin
 import numpy as np
 from bullet_utils.env import BulletEnvWithGround
 from robot_properties_bolt.bolt_wrapper import BoltRobot, BoltConfig
-import pybullet as p
 
 
 if __name__ == "__main__":
     # Create a robot instance. This initializes the simulator as well.
-    env = BulletEnvWithGround(p.GUI)
-    robot = env.add_robot(BoltRobot)
+    env = BulletEnvWithGround()
+    # robot = BoltRobot(use_fixed_base=True)
+    # env.add_robot_to_step(robot)
+    robot = env.add_robot(BoltRobot, useFixedBase=True)
     tau = np.zeros(robot.nb_dof)
 
     # Reset the robot to some initial state.
     q0 = BoltConfig.initial_configuration
+    q0.fill(0.0)
+    q0[2] = 0.5
+    q0[6] = 1.0
     dq0 = BoltConfig.initial_velocity
     robot.reset_state(q0, dq0)
 
     # Run the simulator for 100 steps
-    for i in range(500):
-        # TODO: Implement a controller here.
+    for i in range(50000):
+        q, dq = robot.get_state()
+
+        t = float(i) * 0.001
+        kp = 5.0
+        kd = 0.2
+
+        q_target = np.array(BoltConfig.initial_configuration[7:]) + 0.5 * sin(
+            t * np.pi
+        )
+
+        tau = kp * (q_target - q[7:]) - kd * dq[6:]
+
         robot.send_joint_command(tau)
 
         # Step the simulator.
-        env.step(sleep=True) # You can use sleep here if you want to slow down the replay
+        # You can use sleep here if you want to slow down the replay
+        env.step(sleep=True)
 
     # Read the final state and forces after the stepping.
     q, dq = robot.get_state()
     active_eff, forces = robot.get_force()
-    print('q', q)
-    print('dq', dq)
-    print('active eff', active_eff)
-    print('forces', forces)
-
+    print("q", q)
+    print("dq", dq)
+    print("active eff", active_eff)
+    print("forces", forces)
