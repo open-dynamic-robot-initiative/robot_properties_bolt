@@ -4,6 +4,7 @@ import sys
 from os import path, walk, getcwd
 from setuptools import setup, find_packages
 
+
 def print_error(*args, **kwargs):
     """ Print in stderr. """
     print(*args, file=sys.stderr, **kwargs)
@@ -17,19 +18,24 @@ def find_resources(package_name):
 
     for (root, _, files) in walk(resources_dir):
         for afile in files:
-            if (afile != package_name and 
-                not afile.endswith(".DS_Store") and
-                not afile.endswith(".py")):
+            if (
+                afile != package_name
+                and not afile.endswith(".DS_Store")
+                and not afile.endswith(".py")
+            ):
                 rel_dir = path.relpath(root, package_dir)
                 src = path.join(rel_dir, afile)
                 resources.append(src)
     return resources
 
+
 # Package name.
 package_name = "robot_properties_bolt"
 
 # Long description from the readme.
-with open(path.join(path.dirname(path.realpath(__file__)), "readme.md"), "r") as fh:
+with open(
+    path.join(path.dirname(path.realpath(__file__)), "readme.md"), "r"
+) as fh:
     long_description = fh.read()
 
 # Find the resource files.
@@ -38,8 +44,10 @@ resources = find_resources(package_name)
 # Install the package.xml.
 data_files_to_install = [(path.join("share", package_name), ["package.xml"])]
 data_files_to_install += [
-    ("share/ament_index/resource_index/packages", 
-    [path.join("src", package_name, package_name, package_name)])
+    (
+        "share/ament_index/resource_index/packages",
+        [path.join("src", package_name, package_name, package_name)],
+    )
 ]
 
 # Install nodes and demos.
@@ -57,11 +65,13 @@ setup(
     package_data={package_name: resources},
     data_files=data_files_to_install,
     scripts=scripts_list,
-    install_requires=["setuptools", 
-                      "xacro", 
-                      "pybullet", 
-                      "importlib_resources",
-                      "meshcat"],
+    install_requires=[
+        "setuptools",
+        "xacro",
+        "pybullet",
+        "importlib_resources",
+        "meshcat",
+    ],
     zip_safe=True,
     maintainer="mnaveau",
     maintainer_email="mnaveau@tuebingen.mpg.de",

@@ -9,12 +9,14 @@
 
 
 import eigenpy
+
 eigenpy.switchToNumpyMatrix()
 import time
 from config import BoltConfig
 from py_gepetto_gui_helper.gepetto_gui_scene import GepettoGuiScene
 from py_gepetto_gui_helper.robot_visual import RobotVisual
 from py_gepetto_gui_helper.frame import Frame
+
 
 def create_scene():
     """
@@ -28,8 +30,10 @@ def load_bolt_in_gepetto_gui(gepetto_scene, robot_name):
     Load the bolt meshes in the scene
     """
     config = BoltConfig()
-    return RobotVisual(gepetto_scene, robot_name, config.urdf_path,
-                       config.meshes_path)
+    return RobotVisual(
+        gepetto_scene, robot_name, config.urdf_path, config.meshes_path
+    )
+
 
 def display_bolt_in_gepetto_gui(launch_gepetto_gui_exec=False):
     """
@@ -58,7 +62,6 @@ def display_bolt_in_gepetto_gui(launch_gepetto_gui_exec=False):
 
     return gui_scene, bolt_visual, world_frame
 
+
 if __name__ == "__main__":
     display_bolt_in_gepetto_gui()
-    
-
