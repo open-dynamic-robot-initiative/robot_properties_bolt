@@ -24,9 +24,10 @@ from robot_properties_bolt.bolt_wrapper import BoltRobot, BoltConfig
 if __name__ == "__main__":
     # Create a robot instance. This initializes the simulator as well.
     env = BulletEnvWithGround()
-    # robot = BoltRobot(use_fixed_base=True)
-    # env.add_robot_to_step(robot)
-    robot = env.add_robot(BoltRobot, useFixedBase=True)
+    robot = BoltRobot(use_fixed_base=True)
+    env.add_robot(robot)
+
+    # Initialize the control torques.
     tau = np.zeros(robot.nb_dof)
 
     # Reset the robot to some initial state.
