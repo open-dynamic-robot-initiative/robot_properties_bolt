@@ -101,6 +101,10 @@ class BoltRobot(PinBulletWrapper):
         dq = np.concatenate([dq_simu[0:9], dq_simu[10:13]])
         return q, dq
 
+    def _get_state_passive_ankle(self):
+        # Returns a pinocchio like representation of the q, dq matrixes
+        return super(BoltRobot, self).get_state()
+
     def reset_state(self, q, dq):
         q_simu = np.concatenate([q[0:10], [0.0], q[10:13], [0.0]])
         dq_simu = np.concatenate([dq[0:9], [0.0], dq[9:12], [0.0]])
@@ -121,12 +125,21 @@ class BoltRobot(PinBulletWrapper):
             return pybullet.readUserDebugParameter(self.slider_d)
 
     def forward_robot(self, q=None, dq=None):
-        if q is None:
+        if q is None and dq is None:
             q, dq = self.get_state()
-        elif dq is None:
-            raise ValueError("Need to provide q and dq or non of them.")
+            q_simu, dq_simu = self._get_state_passive_ankle()
+        elif q is not None or dq is not None:
+            raise ValueError("Need to provide q and dq or none of them.")
+        else:
+            q_simu = np.concatenate([q[0:10], [0.0], q[10:13], [0.0]])
+            dq_simu = np.concatenate([dq[0:9], [0.0], dq[9:12], [0.0]])
 
         self.pin_robot.forwardKinematics(q, dq)
         self.pin_robot.computeJointJacobians(q)
         self.pin_robot.framesForwardKinematics(q)
         self.pin_robot.centroidalMomentum(q, dq)
+
+        self.simu_pin_robot.forwardKinematics(q_simu, dq_simu)
+        self.simu_pin_robot.computeJointJacobians(q)
+        self.simu_pin_robot.framesForwardKinematics(q)
+        self.simu_pin_robot.centroidalMomentum(q, dq)
