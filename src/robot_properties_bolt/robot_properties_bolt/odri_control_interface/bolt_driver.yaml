@@ -41,7 +41,7 @@ robot:
             +6.28, +6.28, +6.28, +6.28, +6.28, +6.28
         ]
         max_joint_velocities: 80.
-        safety_damping: 0.5
+        safety_damping: 0.3
     imu:
         rotate_vector: [1, 2, 3]
         orientation_vector: [1, 2, 3, 4]
@@ -57,5 +57,5 @@ joint_calibrator:
     position_offsets: [0.039, -0.290, -0.465, -0.766, -0.435, -0.449]
     Kp: 3.
     Kd: 0.05
-    T: 1.
+    T: 2.0
     dt: 0.001

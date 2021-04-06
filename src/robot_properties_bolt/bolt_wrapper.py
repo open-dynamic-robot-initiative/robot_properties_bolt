@@ -1,4 +1,4 @@
-## @namespace robot_properties_bolt.bolt_wrapper
+# @namespace robot_properties_bolt.bolt_wrapper
 """ This module define the Bolt robot instance. This initializes
     the simulator as well.
 
@@ -8,19 +8,19 @@
 """
 
 import numpy as np
-import time
-import os
 import pybullet
 from bullet_utils.wrapper import PinBulletWrapper
 from robot_properties_bolt.config import BoltConfig
-from robot_properties_solo.utils import find_paths
 
-
-dt = 1e-3
 
 class BoltRobot(PinBulletWrapper):
-
-    def __init__(self, pos=None, orn=None):
+    def __init__(
+        self,
+        pos=None,
+        orn=None,
+        init_sliders_pose=4 * [0],
+        use_fixed_base=False,
+    ):
 
         # Load the robot
         if pos is None:
@@ -29,46 +29,102 @@ class BoltRobot(PinBulletWrapper):
             orn = pybullet.getQuaternionFromEuler([0, 0, 0])
 
         pybullet.setAdditionalSearchPath(BoltConfig.paths["package"])
-        self.urdf_path = BoltConfig.urdf_path
+        self.simu_urdf_path = BoltConfig.simu_urdf_path
         self.robotId = pybullet.loadURDF(
-            self.urdf_path,
-            pos, orn,
+            self.simu_urdf_path,
+            pos,
+            orn,
             flags=pybullet.URDF_USE_INERTIA_FROM_FILE,
-            useFixedBase=False,
+            useFixedBase=use_fixed_base,
         )
-        
+
         self.pin_robot = BoltConfig.buildRobotWrapper()
+        self.simu_pin_robot = BoltConfig.buildSimuRobotWrapper()
 
         # Query all the joints.
         num_joints = pybullet.getNumJoints(self.robotId)
 
         for ji in range(num_joints):
-            pybullet.changeDynamics(self.robotId, ji, linearDamping=.04,
-                angularDamping=0.04, restitution=0.0, lateralFriction=0.5)
+            pybullet.changeDynamics(
+                self.robotId,
+                ji,
+                linearDamping=0.04,
+                angularDamping=0.04,
+                restitution=0.0,
+                lateralFriction=0.5,
+            )
+
+        self.slider_a = pybullet.addUserDebugParameter(
+            "a", 0, 1, init_sliders_pose[0]
+        )
+        self.slider_b = pybullet.addUserDebugParameter(
+            "b", 0, 1, init_sliders_pose[1]
+        )
+        self.slider_c = pybullet.addUserDebugParameter(
+            "c", 0, 1, init_sliders_pose[2]
+        )
+        self.slider_d = pybullet.addUserDebugParameter(
+            "d", 0, 1, init_sliders_pose[3]
+        )
 
         self.base_link_name = "base_link"
         self.end_eff_ids = []
         self.end_effector_names = []
         controlled_joints = []
-        for leg in ['FL', 'FR']:
-            controlled_joints += [leg + '_HAA', leg + '_HFE', leg + '_KFE', leg + '_ANKLE']
-            self.end_eff_ids.append(self.pin_robot.model.getFrameId(leg + "_ANKLE"))
+        for leg in ["FL", "FR"]:
+            controlled_joints += [
+                leg + "_HAA",
+                leg + "_HFE",
+                leg + "_KFE",
+                leg + "_ANKLE",
+            ]
+            self.end_eff_ids.append(
+                self.pin_robot.model.getFrameId(leg + "_ANKLE")
+            )
             self.end_effector_names.append(leg + "_ANKLE")
 
         self.joint_names = controlled_joints
         self.nb_ee = len(self.end_effector_names)
 
         # Creates the wrapper by calling the super.__init__.
-        super(BoltRobot, self).__init__(self.robotId, self.pin_robot,
+        super(BoltRobot, self).__init__(
+            self.robotId,
+            self.simu_pin_robot,
             controlled_joints,
-            self.end_effector_names
+            self.end_effector_names,
         )
+
+    def get_state(self):
+        # Returns a pinocchio like representation of the q, dq matrixes
+        q_simu, dq_simu = super(BoltRobot, self).get_state()
+        q = np.concatenate([q_simu[0:10], q_simu[11:14]])
+        dq = np.concatenate([dq_simu[0:9], dq_simu[10:13]])
+        return q, dq
+
+    def reset_state(self, q, dq):
+        q_simu = np.concatenate([q[0:10], [0.0], q[10:13], [0.0]])
+        dq_simu = np.concatenate([dq[0:9], [0.0], dq[9:12], [0.0]])
+        super(BoltRobot, self).reset_state(q_simu, dq_simu)
+
+    def send_joint_command(self, tau):
+        tau_simu = np.concatenate([tau[0:3], [0.0], tau[3:6], [0.0]])
+        super(BoltRobot, self).send_joint_command(tau_simu)
+
+    def get_slider_position(self, letter):
+        if letter == "a":
+            return pybullet.readUserDebugParameter(self.slider_a)
+        if letter == "b":
+            return pybullet.readUserDebugParameter(self.slider_b)
+        if letter == "c":
+            return pybullet.readUserDebugParameter(self.slider_c)
+        if letter == "d":
+            return pybullet.readUserDebugParameter(self.slider_d)
 
     def forward_robot(self, q=None, dq=None):
         if q is None:
             q, dq = self.get_state()
         elif dq is None:
-            raise ValueError('Need to provide q and dq or non of them.')
+            raise ValueError("Need to provide q and dq or non of them.")
 
         self.pin_robot.forwardKinematics(q, dq)
         self.pin_robot.computeJointJacobians(q)
