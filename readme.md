@@ -32,7 +32,10 @@ In short:
   treep --clone ROBOT_PROPERTIES_BOLT
   ```
 
-### Examples
+
+### Usage
+
+#### Demos/Examples
 
 Below are some examples. 
 
