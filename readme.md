@@ -1,36 +1,40 @@
 Robot Properties Bolt
 ---------------------
 
-### What it is
-
 URDF and Pinocchio integration of the Bolt robot.
 
 ### Installation
 
-1. Install Pinocchio if you have not done so already.
-    The simplest way to do so is using Conda:
+#### Standard dependencies
+
+This package is based on [ROS2](https://docs.ros.org/) based on dashing release and [Pinocchio](https://stack-of-tasks.github.io/pinocchio/).
+
+To install Pinocchio, the simplest way is using [Conda](https://docs.conda.io/en/latest/):
 
     ```
     conda install -c conda-forge pinocchio
     ```
 
-    Alternatively you can use any of the ways listed here: https://stack-of-tasks.github.io/pinocchio/download.html.
+Alternatively you can use any of the ways listed [here](https://stack-of-tasks.github.io/pinocchio/download.html).
 
-2. Install bullet_utils:
-    ```
-    git clone git@github.com:machines-in-motion/bullet_utils.git
-    cd bullet_utils
-    pip3 install .
-    ```
+#### Download the package
 
-3. Install robot_properties_bolt:
-    ```
-    git clone git@github.com:open-dynamic-robot-initiative/robot_properties_bolt.git
-    cd robot_properties_bolt
-    pip3 install .
-    ```
+Use the [treep_machines_in_motion](https://github.com/machines-in-motion/treep_machines_in_motion) configuration.
+
+Do not forget to **register your ssh public key in your settings**:
+
+In short:
+  ```
+  mkdir -p ~/devel
+  pip install treep
+  cd ~/devel
+  git clone git@github.com:machines-in-motion/treep_machines_in_motion.git
+  treep --clone ROBOT_PROPERTIES_BOLT
+  ```
 
 ### Examples
+
+Below are some examples. 
 
 **Loading Bolt in PyBullet**
 
@@ -43,7 +47,7 @@ env = BulletEnvWithGround(p.GUI)
 robot = env.add_robot(BoltRobot)
 ```
 
-**Run simulation on MPI cluster**
+**Run simulation on Max-Planck Institute cluster**
 
 ```
 conda create -n bolt python=3.7
@@ -58,23 +62,12 @@ git clone git@github.com:open-dynamic-robot-initiative/robot_properties_bolt.git
 cd robot_properties_bolt
 pip3 install .
 ```
+You find demos of Bolt on [Gepetto](https://github.com/Gepetto/gepetto-viewer-corba), [Meshcat](https://github.com/rdeits/meshcat-python) and [PyBullet](https://pybullet.org/wordpress/) in the`demos/` folder. 
 
-### Authors
 
-- Felix Grimmiger
-- Maximilien Naveau
-- Avadesh Meduri
-- Julian Viereck
-- Huaijiang Zhu
-- Majid Khadiv
-- Elham Daneshmand
+### License and Copyrights
 
-### Copyrights
-
-Copyright(c) 2018-2021 Max Planck Gesellschaft, New York University
-
-### License
-
-BSD 3-Clause License
+License BSD-3-Clause
+Copyright (c) 2019, New York University and Max Planck Gesellschaft.
 
 
