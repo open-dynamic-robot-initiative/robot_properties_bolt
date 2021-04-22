@@ -65,7 +65,7 @@ git clone git@github.com:open-dynamic-robot-initiative/robot_properties_bolt.git
 cd robot_properties_bolt
 pip3 install .
 ```
-You find demos of Bolt on [Gepetto](https://github.com/Gepetto/gepetto-viewer-corba), [Meshcat](https://github.com/rdeits/meshcat-python) and [PyBullet](https://pybullet.org/wordpress/) in the`demos/` folder. 
+You find demos of Bolt on [gepetto-viewer](https://github.com/Gepetto/gepetto-viewer), [Meshcat](https://github.com/rdeits/meshcat-python) and [PyBullet](https://pybullet.org/wordpress/) in the`demos/` folder. 
 
 
 ### License and Copyrights
