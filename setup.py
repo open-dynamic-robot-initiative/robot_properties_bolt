@@ -10,10 +10,7 @@ from shutil import copytree, rmtree
 from pathlib import Path
 from distutils.core import setup
 from distutils.command.build_py import build_py
-from setuptools import setup, find_packages
-from setuptools.command.install import install
-from setuptools.command.develop import develop
-from setuptools.command.egg_info import egg_info
+from setuptools import setup
 
 
 # Defines the paramters of this package:
