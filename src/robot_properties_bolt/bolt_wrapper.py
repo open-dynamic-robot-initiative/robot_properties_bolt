@@ -22,6 +22,7 @@ class BoltRobot(PinBulletWrapper):
 
     def __init__(self, pos=None, orn=None):
 
+        print("BOLT ROBOT")
         # Load the robot
         if pos is None:
             pos = [0.0, 0, 0.40]
@@ -51,7 +52,7 @@ class BoltRobot(PinBulletWrapper):
         self.end_effector_names = []
         controlled_joints = []
         for leg in ['FL', 'FR']:
-            controlled_joints += [leg + '_HAA', leg + '_HFE', leg + '_KFE', leg + '_ANKLE']
+            controlled_joints += [leg + '_HAA', leg + '_HFE', leg + '_KFE']#, leg + '_ANKLE']
             self.end_eff_ids.append(self.pin_robot.model.getFrameId(leg + "_ANKLE"))
             self.end_effector_names.append(leg + "_ANKLE")
 
