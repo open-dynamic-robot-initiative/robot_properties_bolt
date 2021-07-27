@@ -36,11 +36,9 @@ device:
     base_gyroscope:
       size: 3
     base_attitude:
-      size: 3
+      size: 4
     base_linear_acceleration:
       size: 3
-    base_attitude_quaternion:
-      size: 4
   controls:
     ctrl_joint_torques:
       size: 6
