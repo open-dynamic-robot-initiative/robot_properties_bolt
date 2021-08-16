@@ -60,9 +60,12 @@ for (root, _, files) in walk(path.join("demos")):
     for demo_file in files:
         scripts_list.append(path.join(root, demo_file))
 
-class custom_build_py(build_py):
-    def run(self):
 
+class custom_build_py(build_py):
+
+    def _build_doc(self):
+        """Build the sphinx documentation if the mpi_cmake_module is installed.
+        """
         # Try to build the doc and install it.
         try:
             # Get the mpi_cmake_module build doc method
@@ -82,8 +85,73 @@ class custom_build_py(build_py):
         except ImportError as e:
             print_error()
 
+    def _build_xacro(self):
+        """ Look for the xacro files and build them in the build folder. """
+        resources_dir = str(Path(__file__).parent.absolute() / "src" /
+                            package_name / package_name)
+        build_folder = str((Path(self.build_lib) / package_name /
+                            package_name / "urdf").absolute())
+        xacro_files = []
+        for (root, _, files) in walk(str(Path(resources_dir) / "xacro")):
+            for afile in files:
+                if afile.endswith(".urdf.xacro"):
+                    xacro_files.append(str(Path(root) / afile))
+
+        # rebuild all urdfs.
+        rmtree(build_folder, ignore_errors=True)
+        Path(build_folder).mkdir(parents=True, exist_ok=True)
+
+        for xacro_file in xacro_files:
+            for xacro_file in xacro_files:
+                # Generated file name
+                generated_urdf_path = str(
+                    Path(build_folder) / Path(xacro_file).stem
+                )
+                self._build_single_xacro_file(xacro_file, generated_urdf_path)
+
+    def _build_single_xacro_file(self, input_path, output_path):
+        from xacro import process_file, open_output
+        from xacro.color import error
+        from xacro.xmlutils import xml
+        unicode = str
+        encoding = {}
+        print_error(
+            "building xacro file (",
+            input_path,
+            ") into (",
+            output_path, ")"
+        )
+        try:
+            # open and process file
+            doc = process_file(input_path)
+            # open the output file
+            out = open_output(output_path)
+
+        except xml.parsers.expat.ExpatError as e:
+            error("XML parsing error: %s" % unicode(e), alt_text=None)
+            sys.exit(2)
+
+        except Exception as e:
+            msg = unicode(e)
+            if not msg:
+                msg = repr(e)
+            error(msg)
+            sys.exit(2)  # gracefully exit with error condition
+
+        # write output
+        out.write(doc.toprettyxml(indent="  ", **encoding))
+        # only close output file, but not stdout
+        out.close()
+
+    def run(self):
+        """Build the package. """
+        # build documentation.
+        self._build_doc()
+        # build the xacro files into urdf files.
+        self._build_xacro()
         # distutils uses old-style classes, so no super()
         build_py.run(self)
+
 
 # Final setup.
 setup(
