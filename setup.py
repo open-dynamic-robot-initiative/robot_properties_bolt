@@ -90,7 +90,7 @@ class custom_build_py(build_py):
         resources_dir = str(Path(__file__).parent.absolute() / "src" /
                             package_name / package_name)
         build_folder = str((Path(self.build_lib) / package_name /
-                            package_name / "urdf").absolute())
+                            package_name ).absolute())
         xacro_files = []
         for (root, _, files) in walk(str(Path(resources_dir) / "xacro")):
             for afile in files:
