@@ -128,15 +128,13 @@ class custom_build_py(build_py):
             out = open_output(output_path)
 
         except xml.parsers.expat.ExpatError as e:
-            error("XML parsing error: %s" % unicode(e), alt_text=None)
-            sys.exit(2)
+            print_error("XML parsing error: %s" % unicode(e), alt_text=None)
 
         except Exception as e:
             msg = unicode(e)
             if not msg:
                 msg = repr(e)
-            error(msg)
-            sys.exit(2)  # gracefully exit with error condition
+            print_error(msg)
 
         # write output
         out.write(doc.toprettyxml(indent="  ", **encoding))
