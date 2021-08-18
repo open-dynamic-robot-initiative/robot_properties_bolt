@@ -5,12 +5,11 @@ Copyright (c) 2021, New York University and Max Planck Gesellschaft.
 """
 
 import sys
-from os import path, walk, getcwd
-from shutil import copytree, rmtree
+from os import path, walk
+from shutil import rmtree
 from pathlib import Path
-from distutils.core import setup
-from distutils.command.build_py import build_py
 from setuptools import setup
+from setuptools.command.build_py import build_py
 
 
 # Defines the paramters of this package:
@@ -31,9 +30,11 @@ def find_resources(package_name):
 
     for (root, _, files) in walk(resources_dir):
         for afile in files:
-            if (afile != package_name and 
-                not afile.endswith(".DS_Store") and
-                not afile.endswith(".py")):
+            if (
+                afile != package_name
+                and not afile.endswith(".DS_Store")
+                and not afile.endswith(".py")
+            ):
                 rel_dir = path.relpath(root, package_dir)
                 src = path.join(rel_dir, afile)
                 resources.append(src)
@@ -41,7 +42,9 @@ def find_resources(package_name):
 
 
 # Long description from the readme.
-with open(path.join(path.dirname(path.realpath(__file__)), "readme.md"), "r") as fh:
+with open(
+    path.join(path.dirname(path.realpath(__file__)), "readme.md"), "r"
+) as fh:
     long_description = fh.read()
 
 # Find the resource files.
@@ -50,8 +53,10 @@ resources = find_resources(package_name)
 # Install the package.xml.
 data_files_to_install = [(path.join("share", package_name), ["package.xml"])]
 data_files_to_install += [
-    ("share/ament_index/resource_index/packages", 
-    [path.join("src", package_name, package_name, package_name)])
+    (
+        "share/ament_index/resource_index/packages",
+        [path.join("src", package_name, package_name, package_name)],
+    )
 ]
 
 # Install nodes and demos.
@@ -60,9 +65,10 @@ for (root, _, files) in walk(path.join("demos")):
     for demo_file in files:
         scripts_list.append(path.join(root, demo_file))
 
-class custom_build_py(build_py):
-    def run(self):
 
+class custom_build_py(build_py):
+    def _build_doc(self):
+        """Build the sphinx documentation if the mpi_cmake_module is installed."""
         # Try to build the doc and install it.
         try:
             # Get the mpi_cmake_module build doc method
@@ -71,19 +77,81 @@ class custom_build_py(build_py):
             )
 
             build_documentation(
-                str(
-                    (
-                        Path(self.build_lib) / package_name / "doc"
-                    ).absolute()
-                ),
+                str((Path(self.build_lib) / package_name / "doc").absolute()),
                 str(Path(__file__).parent.absolute()),
                 package_version,
             )
         except ImportError as e:
             print_error()
 
+    def _build_xacro(self):
+        """ Look for the xacro files and build them in the build folder. """
+        resources_dir = str(
+            Path(__file__).parent.absolute()
+            / "src"
+            / package_name
+            / package_name
+        )
+        build_folder = str(
+            (Path(self.build_lib) / package_name / package_name).absolute()
+        )
+        xacro_files = []
+        for (root, _, files) in walk(str(Path(resources_dir) / "xacro")):
+            for afile in files:
+                if afile.endswith(".urdf.xacro"):
+                    xacro_files.append(str(Path(root) / afile))
+
+        # rebuild all urdfs.
+        rmtree(build_folder, ignore_errors=True)
+        Path(build_folder).mkdir(parents=True, exist_ok=True)
+
+        for xacro_file in xacro_files:
+            for xacro_file in xacro_files:
+                # Generated file name
+                generated_urdf_path = str(
+                    Path(build_folder) / Path(xacro_file).stem
+                )
+                self._build_single_xacro_file(xacro_file, generated_urdf_path)
+
+    def _build_single_xacro_file(self, input_path, output_path):
+        from xacro import process_file, open_output
+        from xacro.color import error
+        from xacro.xmlutils import xml
+
+        unicode = str
+        encoding = {}
+        print_error(
+            "building xacro file (", input_path, ") into (", output_path, ")"
+        )
+        try:
+            # open and process file
+            doc = process_file(input_path)
+            # open the output file
+            out = open_output(output_path)
+
+        except xml.parsers.expat.ExpatError as e:
+            print_error("XML parsing error: %s" % unicode(e), alt_text=None)
+
+        except Exception as e:
+            msg = unicode(e)
+            if not msg:
+                msg = repr(e)
+            print_error(msg)
+
+        # write output
+        out.write(doc.toprettyxml(indent="  ", **encoding))
+        # only close output file, but not stdout
+        out.close()
+
+    def run(self):
+        """Build the package. """
+        # build documentation.
+        self._build_doc()
+        # build the xacro files into urdf files.
+        self._build_xacro()
         # distutils uses old-style classes, so no super()
         build_py.run(self)
+
 
 # Final setup.
 setup(
@@ -94,11 +162,13 @@ setup(
     package_data={package_name: resources},
     data_files=data_files_to_install,
     scripts=scripts_list,
-    install_requires=["setuptools", 
-                      "xacro", 
-                      "pybullet", 
-                      "importlib_resources",
-                      "meshcat"],
+    install_requires=[
+        "setuptools",
+        "xacro",
+        "pybullet",
+        "importlib_resources",
+        "meshcat",
+    ],
     zip_safe=True,
     maintainer="mnaveau",
     maintainer_email="mnaveau@tuebingen.mpg.de",
