@@ -8,8 +8,8 @@ import sys
 from os import path, walk
 from shutil import rmtree
 from pathlib import Path
-from distutils.core import setup
-from distutils.command.build_py import build_py
+from setuptools import setup
+from setuptools.command.build_py import build_py
 
 
 # Defines the paramters of this package:
@@ -30,9 +30,11 @@ def find_resources(package_name):
 
     for (root, _, files) in walk(resources_dir):
         for afile in files:
-            if (afile != package_name and 
-                not afile.endswith(".DS_Store") and
-                not afile.endswith(".py")):
+            if (
+                afile != package_name
+                and not afile.endswith(".DS_Store")
+                and not afile.endswith(".py")
+            ):
                 rel_dir = path.relpath(root, package_dir)
                 src = path.join(rel_dir, afile)
                 resources.append(src)
@@ -40,7 +42,9 @@ def find_resources(package_name):
 
 
 # Long description from the readme.
-with open(path.join(path.dirname(path.realpath(__file__)), "readme.md"), "r") as fh:
+with open(
+    path.join(path.dirname(path.realpath(__file__)), "readme.md"), "r"
+) as fh:
     long_description = fh.read()
 
 # Find the resource files.
@@ -49,8 +53,10 @@ resources = find_resources(package_name)
 # Install the package.xml.
 data_files_to_install = [(path.join("share", package_name), ["package.xml"])]
 data_files_to_install += [
-    ("share/ament_index/resource_index/packages", 
-    [path.join("src", package_name, package_name, package_name)])
+    (
+        "share/ament_index/resource_index/packages",
+        [path.join("src", package_name, package_name, package_name)],
+    )
 ]
 
 # Install nodes and demos.
@@ -61,10 +67,8 @@ for (root, _, files) in walk(path.join("demos")):
 
 
 class custom_build_py(build_py):
-
     def _build_doc(self):
-        """Build the sphinx documentation if the mpi_cmake_module is installed.
-        """
+        """Build the sphinx documentation if the mpi_cmake_module is installed."""
         # Try to build the doc and install it.
         try:
             # Get the mpi_cmake_module build doc method
@@ -73,11 +77,7 @@ class custom_build_py(build_py):
             )
 
             build_documentation(
-                str(
-                    (
-                        Path(self.build_lib) / package_name / "doc"
-                    ).absolute()
-                ),
+                str((Path(self.build_lib) / package_name / "doc").absolute()),
                 str(Path(__file__).parent.absolute()),
                 package_version,
             )
@@ -86,10 +86,15 @@ class custom_build_py(build_py):
 
     def _build_xacro(self):
         """ Look for the xacro files and build them in the build folder. """
-        resources_dir = str(Path(__file__).parent.absolute() / "src" /
-                            package_name / package_name)
-        build_folder = str((Path(self.build_lib) / package_name /
-                            package_name ).absolute())
+        resources_dir = str(
+            Path(__file__).parent.absolute()
+            / "src"
+            / package_name
+            / package_name
+        )
+        build_folder = str(
+            (Path(self.build_lib) / package_name / package_name).absolute()
+        )
         xacro_files = []
         for (root, _, files) in walk(str(Path(resources_dir) / "xacro")):
             for afile in files:
@@ -112,13 +117,11 @@ class custom_build_py(build_py):
         from xacro import process_file, open_output
         from xacro.color import error
         from xacro.xmlutils import xml
+
         unicode = str
         encoding = {}
         print_error(
-            "building xacro file (",
-            input_path,
-            ") into (",
-            output_path, ")"
+            "building xacro file (", input_path, ") into (", output_path, ")"
         )
         try:
             # open and process file
@@ -159,11 +162,13 @@ setup(
     package_data={package_name: resources},
     data_files=data_files_to_install,
     scripts=scripts_list,
-    install_requires=["setuptools", 
-                      "xacro", 
-                      "pybullet", 
-                      "importlib_resources",
-                      "meshcat"],
+    install_requires=[
+        "setuptools",
+        "xacro",
+        "pybullet",
+        "importlib_resources",
+        "meshcat",
+    ],
     zip_safe=True,
     maintainer="mnaveau",
     maintainer_email="mnaveau@tuebingen.mpg.de",
