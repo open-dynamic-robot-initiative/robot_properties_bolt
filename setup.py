@@ -26,7 +26,7 @@ def find_resources(package_name):
     """ Find the relative path of files under the resource folder. """
     resources = []
     package_dir = path.join("src", package_name)
-    resources_dir = path.join(package_dir, package_name)
+    resources_dir = path.join(package_dir, "resources")
 
     for (root, _, files) in walk(resources_dir):
         for afile in files:
@@ -49,13 +49,14 @@ with open(
 
 # Find the resource files.
 resources = find_resources(package_name)
+print_error("resources = ", resources)
 
 # Install the package.xml.
 data_files_to_install = [(path.join("share", package_name), ["package.xml"])]
 data_files_to_install += [
     (
         "share/ament_index/resource_index/packages",
-        [path.join("src", package_name, package_name, package_name)],
+        [path.join("src", package_name, "resources", package_name)],
     )
 ]
 
@@ -68,7 +69,7 @@ for (root, _, files) in walk(path.join("demos")):
 
 class custom_build_py(build_py):
     def _build_doc(self):
-        """Build the sphinx documentation if the mpi_cmake_module is installed."""
+        """Build the documentation if the mpi_cmake_module is installed."""
         # Try to build the doc and install it.
         try:
             # Get the mpi_cmake_module build doc method
@@ -90,10 +91,12 @@ class custom_build_py(build_py):
             Path(__file__).parent.absolute()
             / "src"
             / package_name
-            / package_name
+            / "resources"
         )
         build_folder = str(
-            (Path(self.build_lib) / package_name / package_name).absolute()
+            (
+                Path(self.build_lib) / package_name / "resources" / "urdf"
+            ).absolute()
         )
         xacro_files = []
         for (root, _, files) in walk(str(Path(resources_dir) / "xacro")):
@@ -115,7 +118,6 @@ class custom_build_py(build_py):
 
     def _build_single_xacro_file(self, input_path, output_path):
         from xacro import process_file, open_output
-        from xacro.color import error
         from xacro.xmlutils import xml
 
         unicode = str

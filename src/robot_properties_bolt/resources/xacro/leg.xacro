@@ -87,10 +87,10 @@
                 <origin xyz="0 0 0" rpy="0 0 0"/>
                 <geometry>
                     <xacro:unless value="${is_right}">
-                        <mesh filename="package://robot_properties_bolt/meshes/${mesh_ext}/bolt_hip_fe_left_side.${mesh_ext}"/>
+                        <mesh filename="package://robot_properties_bolt/resources/meshes/${mesh_ext}/bolt_hip_fe_left_side.${mesh_ext}"/>
                     </xacro:unless>
                     <xacro:if value="${is_right}">
-                        <mesh filename="package://robot_properties_bolt/meshes/${mesh_ext}/bolt_hip_fe_right_side.${mesh_ext}"/>
+                        <mesh filename="package://robot_properties_bolt/resources/meshes/${mesh_ext}/bolt_hip_fe_right_side.${mesh_ext}"/>
                     </xacro:if>
                 </geometry>
                 <material name="${color_name}">
@@ -102,10 +102,10 @@
                 <origin xyz="0 0 0" rpy="0 0 0"/>
                 <geometry>
                     <xacro:unless value="${is_right}">
-                        <mesh filename="package://robot_properties_bolt/meshes/${mesh_ext}/bolt_hip_fe_left_side.${mesh_ext}"/>
+                        <mesh filename="package://robot_properties_bolt/resources/meshes/${mesh_ext}/bolt_hip_fe_left_side.${mesh_ext}"/>
                     </xacro:unless>
                     <xacro:if value="${is_right}">
-                        <mesh filename="package://robot_properties_bolt/meshes/${mesh_ext}/bolt_hip_fe_right_side.${mesh_ext}"/>
+                        <mesh filename="package://robot_properties_bolt/resources/meshes/${mesh_ext}/bolt_hip_fe_right_side.${mesh_ext}"/>
                     </xacro:if>
                 </geometry>
                 <material name="${color_name}">
@@ -169,18 +169,18 @@
                 <geometry>
                     <xacro:unless value="${new_leg}">
                         <xacro:unless value="${is_right}">
-                            <mesh filename="package://robot_properties_bolt/meshes/${mesh_ext}/bolt_upper_leg_left_side.${mesh_ext}"/>
+                            <mesh filename="package://robot_properties_bolt/resources/meshes/${mesh_ext}/bolt_upper_leg_left_side.${mesh_ext}"/>
                         </xacro:unless>
                         <xacro:if value="${is_right}">
-                            <mesh filename="package://robot_properties_bolt/meshes/${mesh_ext}/bolt_upper_leg_right_side.${mesh_ext}"/>
+                            <mesh filename="package://robot_properties_bolt/resources/meshes/${mesh_ext}/bolt_upper_leg_right_side.${mesh_ext}"/>
                         </xacro:if>
                     </xacro:unless>
                     <xacro:if value="${new_leg}">
                         <xacro:unless value="${is_right}">
-                            <mesh filename="package://robot_properties_bolt/meshes/${mesh_ext}/upper_leg_200mm_left_side.${mesh_ext}"/>
+                            <mesh filename="package://robot_properties_bolt/resources/meshes/${mesh_ext}/upper_leg_200mm_left_side.${mesh_ext}"/>
                         </xacro:unless>
                         <xacro:if value="${is_right}">
-                            <mesh filename="package://robot_properties_bolt/meshes/${mesh_ext}/upper_leg_200mm_right_side.${mesh_ext}"/>
+                            <mesh filename="package://robot_properties_bolt/resources/meshes/${mesh_ext}/upper_leg_200mm_right_side.${mesh_ext}"/>
                         </xacro:if>
                     </xacro:if>
                 </geometry>
@@ -194,18 +194,18 @@
                 <geometry>
                     <xacro:unless value="${new_leg}">
                         <xacro:unless value="${is_right}">
-                            <mesh filename="package://robot_properties_bolt/meshes/${mesh_ext}/bolt_upper_leg_left_side.${mesh_ext}"/>
+                            <mesh filename="package://robot_properties_bolt/resources/meshes/${mesh_ext}/bolt_upper_leg_left_side.${mesh_ext}"/>
                         </xacro:unless>
                         <xacro:if value="${is_right}">
-                            <mesh filename="package://robot_properties_bolt/meshes/${mesh_ext}/bolt_upper_leg_right_side.${mesh_ext}"/>
+                            <mesh filename="package://robot_properties_bolt/resources/meshes/${mesh_ext}/bolt_upper_leg_right_side.${mesh_ext}"/>
                         </xacro:if>
                     </xacro:unless>
                     <xacro:if value="${new_leg}">
                         <xacro:unless value="${is_right}">
-                            <mesh filename="package://robot_properties_bolt/meshes/${mesh_ext}/upper_leg_200mm_left_side.${mesh_ext}"/>
+                            <mesh filename="package://robot_properties_bolt/resources/meshes/${mesh_ext}/upper_leg_200mm_left_side.${mesh_ext}"/>
                         </xacro:unless>
                         <xacro:if value="${is_right}">
-                            <mesh filename="package://robot_properties_bolt/meshes/${mesh_ext}/upper_leg_200mm_right_side.${mesh_ext}"/>
+                            <mesh filename="package://robot_properties_bolt/resources/meshes/${mesh_ext}/upper_leg_200mm_right_side.${mesh_ext}"/>
                         </xacro:if>
                     </xacro:if>
                 </geometry>
@@ -273,18 +273,18 @@
                 <geometry>
                     <xacro:unless value="${new_leg}">
                         <xacro:unless value="${is_right}">
-                            <mesh filename="package://robot_properties_bolt/meshes/${mesh_ext}/bolt_lower_leg_left_side.${mesh_ext}"/>
+                            <mesh filename="package://robot_properties_bolt/resources/meshes/${mesh_ext}/bolt_lower_leg_left_side.${mesh_ext}"/>
                         </xacro:unless>
                         <xacro:if value="${is_right}">
-                            <mesh filename="package://robot_properties_bolt/meshes/${mesh_ext}/bolt_lower_leg_right_side.${mesh_ext}"/>
+                            <mesh filename="package://robot_properties_bolt/resources/meshes/${mesh_ext}/bolt_lower_leg_right_side.${mesh_ext}"/>
                         </xacro:if>
                     </xacro:unless>
                     <xacro:if value="${new_leg}">
                         <xacro:unless value="${is_right}">
-                            <mesh filename="package://robot_properties_bolt/meshes/${mesh_ext}/lower_leg_200mm_left_side.${mesh_ext}"/>
+                            <mesh filename="package://robot_properties_bolt/resources/meshes/${mesh_ext}/lower_leg_200mm_left_side.${mesh_ext}"/>
                         </xacro:unless>
                         <xacro:if value="${is_right}">
-                            <mesh filename="package://robot_properties_bolt/meshes/${mesh_ext}/lower_leg_200mm_right_side.${mesh_ext}"/>
+                            <mesh filename="package://robot_properties_bolt/resources/meshes/${mesh_ext}/lower_leg_200mm_right_side.${mesh_ext}"/>
                         </xacro:if>
                     </xacro:if>
                 </geometry>
@@ -298,18 +298,18 @@
                 <geometry>
                     <xacro:unless value="${new_leg}">
                         <xacro:unless value="${is_right}">
-                            <mesh filename="package://robot_properties_bolt/meshes/${mesh_ext}/bolt_lower_leg_left_side.${mesh_ext}"/>
+                            <mesh filename="package://robot_properties_bolt/resources/meshes/${mesh_ext}/bolt_lower_leg_left_side.${mesh_ext}"/>
                         </xacro:unless>
                         <xacro:if value="${is_right}">
-                            <mesh filename="package://robot_properties_bolt/meshes/${mesh_ext}/bolt_lower_leg_right_side.${mesh_ext}"/>
+                            <mesh filename="package://robot_properties_bolt/resources/meshes/${mesh_ext}/bolt_lower_leg_right_side.${mesh_ext}"/>
                         </xacro:if>
                     </xacro:unless>
                     <xacro:if value="${new_leg}">
                         <xacro:unless value="${is_right}">
-                            <mesh filename="package://robot_properties_bolt/meshes/${mesh_ext}/lower_leg_200mm_left_side.${mesh_ext}"/>
+                            <mesh filename="package://robot_properties_bolt/resources/meshes/${mesh_ext}/lower_leg_200mm_left_side.${mesh_ext}"/>
                         </xacro:unless>
                         <xacro:if value="${is_right}">
-                            <mesh filename="package://robot_properties_bolt/meshes/${mesh_ext}/lower_leg_200mm_right_side.${mesh_ext}"/>
+                            <mesh filename="package://robot_properties_bolt/resources/meshes/${mesh_ext}/lower_leg_200mm_right_side.${mesh_ext}"/>
                         </xacro:if>
                     </xacro:if>
                 </geometry>
@@ -377,7 +377,7 @@
                         <cylinder length="0.06" radius="0.0085"/>
                     </xacro:if>
                     <xacro:unless value="${has_passive_ankle}">
-                        <mesh filename="package://robot_properties_bolt/meshes/${mesh_ext}/bolt_foot.${mesh_ext}"/>
+                        <mesh filename="package://robot_properties_bolt/resources/meshes/${mesh_ext}/bolt_foot.${mesh_ext}"/>
                     </xacro:unless>
                 </geometry>
                 <material name="${color_name}">
@@ -397,7 +397,7 @@
                         <cylinder length="0.06" radius="0.0085"/>
                     </xacro:if>
                     <xacro:unless value="${has_passive_ankle}">
-                        <mesh filename="package://robot_properties_bolt/meshes/${mesh_ext}/bolt_foot.${mesh_ext}"/>
+                        <mesh filename="package://robot_properties_bolt/resources/meshes/${mesh_ext}/bolt_foot.${mesh_ext}"/>
                     </xacro:unless>
                 </geometry>
                 <material name="${color_name}">

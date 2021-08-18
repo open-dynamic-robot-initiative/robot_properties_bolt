@@ -28,7 +28,7 @@ class BoltRobot(PinBulletWrapper):
         if orn is None:
             orn = pybullet.getQuaternionFromEuler([0, 0, 0])
 
-        pybullet.setAdditionalSearchPath(BoltConfig.paths["package"])
+        pybullet.setAdditionalSearchPath(BoltConfig.resources.package_path)
         self.simu_urdf_path = BoltConfig.simu_urdf_path
         self.robotId = pybullet.loadURDF(
             self.simu_urdf_path,

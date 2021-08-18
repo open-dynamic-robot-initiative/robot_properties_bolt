@@ -9,11 +9,9 @@
 
 import numpy as np
 from math import pi
-from os.path import join, dirname
 import pinocchio as se3
-from pinocchio.utils import zero
 from pinocchio.robot_wrapper import RobotWrapper
-from robot_properties_bolt.utils import find_paths
+from robot_properties_bolt.resources import Resources
 
 
 class BoltAbstract(object):
@@ -82,12 +80,12 @@ class BoltConfig(BoltAbstract):
     robot_name = "bolt"
 
     # Here we use the same urdf as for the quadruped but without the freeflyer.
-    paths = find_paths(robot_name)
-    meshes_path = paths["package"]
-    dgm_yaml_path = paths["dgm_yaml"]
-    simu_urdf_path = paths["simu_urdf"]
-    urdf_path = paths["urdf"]
-    ctrl_path = paths["imp_ctrl_yaml"]
+    resources = Resources(robot_name)
+    meshes_path = resources.meshes_path
+    dgm_yaml_path = resources.dgm_yaml_path
+    simu_urdf_path = resources.simu_urdf_path
+    urdf_path = resources.urdf_path
+    ctrl_path = resources.imp_ctrl_yaml_path
 
     # The inertia of a single blmc_motor.
     motor_inertia = 0.0000045

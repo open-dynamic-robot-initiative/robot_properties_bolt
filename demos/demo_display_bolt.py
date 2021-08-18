@@ -7,11 +7,7 @@
 @example demo_display_bolt.py
 """
 
-import numpy as np
-import pinocchio as pin
 import time
-import os
-
 from robot_properties_bolt.config import BoltConfig
 
 

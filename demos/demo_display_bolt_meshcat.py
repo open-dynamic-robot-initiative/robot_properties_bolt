@@ -7,12 +7,9 @@
 @example demo_display_bolt_meshcat.py
 """
 
-import numpy as np
+import sys
 import pinocchio as pin
 import time
-import os
-import meshcat
-
 from robot_properties_bolt.config import BoltConfig
 
 if __name__ == "__main__":
@@ -28,7 +25,8 @@ try:
     viz.initViewer(open=True)
 except ImportError as err:
     print(
-        "Error while initializing the viewer. It seems you should install Python meshcat"
+        "Error while initializing the viewer. ",
+        "It seems you should install Python meshcat"
     )
     print(err)
     sys.exit(0)
