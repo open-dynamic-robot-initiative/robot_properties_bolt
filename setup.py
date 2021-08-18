@@ -5,12 +5,11 @@ Copyright (c) 2021, New York University and Max Planck Gesellschaft.
 """
 
 import sys
-from os import path, walk, getcwd
-from shutil import copytree, rmtree
+from os import path, walk
+from shutil import rmtree
 from pathlib import Path
 from distutils.core import setup
 from distutils.command.build_py import build_py
-from setuptools import setup
 
 
 # Defines the paramters of this package:
