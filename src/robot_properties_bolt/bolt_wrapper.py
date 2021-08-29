@@ -20,7 +20,9 @@ class BoltRobot(PinBulletWrapper):
         orn=None,
         init_sliders_pose=4 * [0],
         use_fixed_base=False,
+        is_passive=False
     ):
+        self.is_passive=is_passive
 
         # Load the robot
         if pos is None:
@@ -29,17 +31,28 @@ class BoltRobot(PinBulletWrapper):
             orn = pybullet.getQuaternionFromEuler([0, 0, 0])
 
         pybullet.setAdditionalSearchPath(BoltConfig.resources.package_path)
+        self.urdf_path = BoltConfig.urdf_path
         self.simu_urdf_path = BoltConfig.simu_urdf_path
-        self.robotId = pybullet.loadURDF(
-            self.simu_urdf_path,
-            pos,
-            orn,
-            flags=pybullet.URDF_USE_INERTIA_FROM_FILE,
-            useFixedBase=use_fixed_base,
-        )
+        if self.is_passive:
+            self.robotId = pybullet.loadURDF(
+                self.simu_urdf_path,
+                pos,
+                orn,
+                flags=pybullet.URDF_USE_INERTIA_FROM_FILE,
+                useFixedBase=use_fixed_base,
+            )
+        else:
+            self.robotId = pybullet.loadURDF(
+                self.urdf_path,
+                pos,
+                orn,
+                flags=pybullet.URDF_USE_INERTIA_FROM_FILE,
+                useFixedBase=use_fixed_base,
+            )
 
         self.pin_robot = BoltConfig.buildRobotWrapper()
-        self.simu_pin_robot = BoltConfig.buildSimuRobotWrapper()
+        if self.is_passive:
+            self.simu_pin_robot = BoltConfig.buildSimuRobotWrapper()
 
         # Query all the joints.
         num_joints = pybullet.getNumJoints(self.robotId)
@@ -72,12 +85,19 @@ class BoltRobot(PinBulletWrapper):
         self.end_effector_names = []
         controlled_joints = []
         for leg in ["FL", "FR"]:
-            controlled_joints += [
-                leg + "_HAA",
-                leg + "_HFE",
-                leg + "_KFE",
-                leg + "_ANKLE",
-            ]
+            if self.is_passive:
+                controlled_joints += [
+                    leg + "_HAA",
+                    leg + "_HFE",
+                    leg + "_KFE",
+                    leg + "_ANKLE",
+                ]
+            else:
+                controlled_joints += [
+                    leg + "_HAA",
+                    leg + "_HFE",
+                    leg + "_KFE",
+                ]
             self.end_eff_ids.append(
                 self.pin_robot.model.getFrameId(leg + "_ANKLE")
             )
@@ -85,34 +105,47 @@ class BoltRobot(PinBulletWrapper):
 
         self.joint_names = controlled_joints
         self.nb_ee = len(self.end_effector_names)
+        print("end_effector_names", self.end_effector_names)
 
         # Creates the wrapper by calling the super.__init__.
         super(BoltRobot, self).__init__(
             self.robotId,
-            self.simu_pin_robot,
+            self.pin_robot,
             controlled_joints,
             self.end_effector_names,
         )
 
     def get_state(self):
         # Returns a pinocchio like representation of the q, dq matrixes
-        q_simu, dq_simu = super(BoltRobot, self).get_state()
-        q = np.concatenate([q_simu[0:10], q_simu[11:14]])
-        dq = np.concatenate([dq_simu[0:9], dq_simu[10:13]])
-        return q, dq
+
+        if self.is_passive:
+            q_simu, dq_simu = super(BoltRobot, self).get_state()
+            q = np.concatenate([q_simu[0:10], q_simu[11:14]])
+            dq = np.concatenate([dq_simu[0:9], dq_simu[10:13]])
+            return q, dq
+        else:
+            q, dq = super(BoltRobot, self).get_state()
+            return q, dq
 
     def _get_state_passive_ankle(self):
         # Returns a pinocchio like representation of the q, dq matrixes
         return super(BoltRobot, self).get_state()
 
     def reset_state(self, q, dq):
-        q_simu = np.concatenate([q[0:10], [0.0], q[10:13], [0.0]])
-        dq_simu = np.concatenate([dq[0:9], [0.0], dq[9:12], [0.0]])
-        super(BoltRobot, self).reset_state(q_simu, dq_simu)
+        if self.is_passive:
+            q_simu = np.concatenate([q[0:10], [0.0], q[10:13], [0.0]])
+            dq_simu = np.concatenate([dq[0:9], [0.0], dq[9:12], [0.0]])
+            super(BoltRobot, self).reset_state(q_simu, dq_simu)
+        else:
+            super(BoltRobot, self).reset_state(q, dq)
+
 
     def send_joint_command(self, tau):
-        tau_simu = np.concatenate([tau[0:3], [0.0], tau[3:6], [0.0]])
-        super(BoltRobot, self).send_joint_command(tau_simu)
+        if self.is_passive:
+            tau_simu = np.concatenate([tau[0:3], [0.0], tau[3:6], [0.0]])
+            super(BoltRobot, self).send_joint_command(tau_simu)
+        else:
+            super(BoltRobot, self).send_joint_command(tau)
 
     def get_slider_position(self, letter):
         if letter == "a":
