@@ -1,0 +1,10 @@
+<?xml version="1.0"?>
+
+<robot xmlns:xacro="http://playerstage.sourceforge.net/gazebo/xmlschema/#interface" name="bolt">
+
+    <!-- These are absolute distance value, the sign are decided below -->
+    <!-- WA stands for Waist Yaw joint, SFE is shoulder flexion-extension -->
+    <xacro:property name="base_2_WY_z" value="${76.0 * 0.001}" />
+
+
+</robot>
