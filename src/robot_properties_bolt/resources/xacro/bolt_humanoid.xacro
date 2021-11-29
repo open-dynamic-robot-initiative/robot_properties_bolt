@@ -8,9 +8,9 @@
 
   <xacro:macro name="bolt_full" params="mesh_ext color_name color opacity new_leg has_passive_ankle">
 
-    <!-- This file is based on: https://atlas.is.localnet/confluence/display/AMDW/Quadruped+URDF+Files -->
+    <!-- This file is based on:  -->
     <link name="base_link">
-      <!-- BASE LINK INERTIAL -->
+      <!-- BASE LINK INERTIA -->
       <inertial>
           <origin xyz="0 0 0" rpy="0 0 0" />
           <mass value="0.61436936"/>
