@@ -15,6 +15,9 @@
   <!-- Include the legs -->
   <xacro:include filename="bolt.xacro"/>
 
+  <!-- Include the upper body -->
+  <xacro:include filename="upper_body.xacro"/>
+
   <!-- Include the fully parametrized bolt -->
   <xacro:bolt_full
       mesh_ext="${mesh_ext}"
