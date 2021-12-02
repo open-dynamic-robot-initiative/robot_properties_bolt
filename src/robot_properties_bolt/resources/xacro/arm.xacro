@@ -61,8 +61,7 @@
                 <xacro:unless value="${is_right}">
                     <mesh filename="package://robot_properties_bolt/resources/meshes/${mesh_ext}/bolt_shoulder_fe_left_side.${mesh_ext}"/>
                 </xacro:unless>
-                <xacro:if value="${is_right}">
-                    <mesh filename="package://robot_properties_bolt/resources/meshes/${mesh_ext}/bolt_shoulder_fe_right_side.${mesh_ext}"/>
+                <xacro:if value="${is_right}">mesh filename="package://robot_properties_bolt/resources/meshes/${mesh_ext}/bolt_shoulder_fe_right_side.${mesh_ext}"/>
                 </xacro:if>
             </geometry>
             <material name="${color_name}">
@@ -91,4 +90,5 @@
         </contact>
     </link>
     <!-- END ARM LINK -->
+    </xacro:macro>
 </robot>
