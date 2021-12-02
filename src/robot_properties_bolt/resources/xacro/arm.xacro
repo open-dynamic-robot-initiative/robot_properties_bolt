@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 
-<robot xmlns:xacro="http://playerstage.sourceforge.net/gazebo/xmlschema/#interface" name="bolt">
+<robot xmlns:xacro="http://playerstage.sourceforge.net/gazebo/xmlschema/#interface" name="bolt_humanoid">
 
   <!-- These are absolute distance value, the sign are decided below -->
   <!-- SFE is shoulder flexion-extension -->

@@ -1,5 +1,5 @@
 <?xml version="1.0" ?>
-<robot name="bolt"
+<robot name="bolt_humanoid"
   xmlns:controller="http://playerstage.sourceforge.net/gazebo/xmlschema/#controller"
   xmlns:interface="http://playerstage.sourceforge.net/gazebo/xmlschema/#interface"
   xmlns:sensor="http://playerstage.sourceforge.net/gazebo/xmlschema/#sensor"
@@ -13,13 +13,10 @@
   <xacro:property name="has_passive_ankle" value="false" />
 
   <!-- Include the legs -->
-  <xacro:include filename="bolt.xacro"/>
-
-  <!-- Include the upper body -->
-  <xacro:include filename="upper_body.xacro"/>
+  <xacro:include filename="bolt_humanoid.xacro"/>
 
   <!-- Include the fully parametrized bolt -->
-  <xacro:bolt_full
+  <xacro:bolt_humanoid_full
       mesh_ext="${mesh_ext}"
       color_name="${color_name}"
       color="${color}"

@@ -1,15 +1,11 @@
 <?xml version="1.0" ?>
-<robot name="bolt"
-
-  xmlns:controller="http://playerstage.sourceforge.net/gazebo/xmlschema/#controller"
-  xmlns:interface="http://playerstage.sourceforge.net/gazebo/xmlschema/#interface"
-  xmlns:sensor="http://playerstage.sourceforge.net/gazebo/xmlschema/#sensor"
-  xmlns:xacro="http://playerstage.sourceforge.net/gazebo/xmlschema/#interface">
+<robot name="bolt_humanoid" xmlns:xacro="http://playerstage.sourceforge.net/gazebo/xmlschema/#interface">
 
   <!-- WA stands for Waist Rotation joint, SFE is shoulder flexion-extension -->
   <xacro:property name="base_2_WR_z" value="${76.0 * 0.001}" />
-  <xacro:macro name="upper_boddy" params="mesh_ext color_name color opacity">
-    <!-- wAIST link  -->
+
+  <xacro:macro name="upper_body" params="mesh_ext color_name color opacity">
+    <!-- WAIST link  -->
     <joint name="WR" type="revolute">
         <parent link="base_link"/>
         <child link="WAIST"/>
