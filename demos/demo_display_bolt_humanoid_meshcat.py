@@ -37,8 +37,8 @@ q = BoltHumanoidConfig.initial_configuration
 
 # q[[4]] = 0.6
 # Turn the legs outside
-q[10] = -0.5  # Right leg
-q[7] = 0.5  # Left leg
+q[10] = -0.1  # Right leg
+q[7] = 0.1  # Left leg
 
 viz.display(q)
 

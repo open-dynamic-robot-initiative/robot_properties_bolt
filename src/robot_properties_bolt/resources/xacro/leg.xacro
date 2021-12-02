@@ -325,7 +325,7 @@
         </link>
         <!-- END LOWER LEG LINK -->
 
-        <!-- KFE: Joint between the upper leg and the lower leg -->
+        <!-- ANKLE: Joint between the lower leg and the foot -->
         <joint name="${prefix}_ANKLE" type="${ankle_joint_type}">
             <parent link="${prefix}_LOWER_LEG"/>
             <child link="${prefix}_FOOT"/>
@@ -393,7 +393,7 @@
                 <restitution value="0.0"/>
             </contact>
         </link>
-        <!-- END LOWER LEG LINK -->
+        <!-- END FOOT LINK -->
 
     </xacro:macro>
 </robot>
