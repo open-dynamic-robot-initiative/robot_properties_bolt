@@ -11,7 +11,7 @@
   <!-- Macro defining bolt arm. -->
   <xacro:macro name="arm" params="prefix is_right mesh_ext color_name color opacity">
     <joint name="${prefix}_SFE" type="revolute">
-        <parent link="${prefix}_WAIST"/>
+        <parent link="WAIST"/>
         <child link="${prefix}_ARM"/>
         <limit effort="1000" lower="-10" upper="10" velocity="1000"/>
         <!-- joints rotates around the y-axis -->
@@ -61,7 +61,8 @@
                 <xacro:unless value="${is_right}">
                     <mesh filename="package://robot_properties_bolt/resources/meshes/${mesh_ext}/bolt_shoulder_fe_left_side.${mesh_ext}"/>
                 </xacro:unless>
-                <xacro:if value="${is_right}">mesh filename="package://robot_properties_bolt/resources/meshes/${mesh_ext}/bolt_shoulder_fe_right_side.${mesh_ext}"/>
+                <xacro:if value="${is_right}">
+                  <mesh filename="package://robot_properties_bolt/resources/meshes/${mesh_ext}/bolt_shoulder_fe_right_side.${mesh_ext}"/>
                 </xacro:if>
             </geometry>
             <material name="${color_name}">
