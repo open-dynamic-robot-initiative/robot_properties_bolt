@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 """demo_simulate_bolt
 
-Basic loading and visualization for the Bolt robot using gepetto viewer.
+Basic Simulation for the Bolt robot in Pybullet.
 
 License: BSD 3-Clause License
 Copyright (C) 2018-2021, New York University , Max Planck Gesellschaft
@@ -11,7 +11,7 @@ All rights reserved.
 - 1. Building the workspace by executing `colcon build` in the workspace.
 - 2. "source ./install/setup.bash" is called from the root of the catkin
      workspace.
-- 3. Run the demo by: `python3 display_bolt.py`
+- 3. Run the demo
 
 """
 
