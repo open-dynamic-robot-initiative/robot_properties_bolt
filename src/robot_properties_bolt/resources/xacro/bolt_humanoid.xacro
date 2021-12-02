@@ -1,16 +1,15 @@
 <?xml version="1.0" ?>
-<robot name="bolt"
+<robot name="bolt_humanoid"
 
   xmlns:controller="http://playerstage.sourceforge.net/gazebo/xmlschema/#controller"
   xmlns:interface="http://playerstage.sourceforge.net/gazebo/xmlschema/#interface"
   xmlns:sensor="http://playerstage.sourceforge.net/gazebo/xmlschema/#sensor"
   xmlns:xacro="http://playerstage.sourceforge.net/gazebo/xmlschema/#interface">
 
-  <xacro:macro name="bolt_full" params="mesh_ext color_name color opacity new_leg has_passive_ankle">
+  <xacro:macro name="bolt_humanoid_full" params="mesh_ext color_name color opacity new_leg has_passive_ankle">
 
-    <!-- This file is based on:  -->
     <link name="base_link">
-      <!-- BASE LINK INERTIA -->
+      <!-- BASE LINK INERTIAL -->
       <inertial>
           <origin xyz="0 0 0" rpy="0 0 0" />
           <mass value="0.61436936"/>
@@ -46,6 +45,16 @@
         <restitution value="0.5"/>
       </contact>
     </link> <!-- END BASE LINK -->
+
+    <!-- Include the upper body -->
+    <xacro:include filename="upper_body.xacro"/>
+
+    <!-- Include the upper body -->
+    <xacro:upper_body
+        mesh_ext="${mesh_ext}"
+        color_name="${color_name}"
+        color="${color}"
+        opacity="${opacity}"/>
 
     <!-- Include the legs -->
     <xacro:include filename="leg.xacro"/>
