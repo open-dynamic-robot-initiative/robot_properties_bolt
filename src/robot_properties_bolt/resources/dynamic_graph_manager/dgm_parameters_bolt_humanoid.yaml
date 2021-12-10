@@ -31,13 +31,13 @@ device:
       size: 5
     motor_board_errors:
       size: 5
-    base_accelerometer:
+    imu_accelerometer:
       size: 3
-    base_gyroscope:
+    imu_gyroscope:
       size: 3
-    base_attitude:
+    imu_attitude:
       size: 4
-    base_linear_acceleration:
+    imu_linear_acceleration:
       size: 3
   controls:
     ctrl_joint_torques:

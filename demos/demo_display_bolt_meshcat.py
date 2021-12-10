@@ -17,33 +17,33 @@ if __name__ == "__main__":
     # Load the robot urdf.
     robot = BoltConfig.buildRobotWrapper()
 
-viz = pin.visualize.MeshcatVisualizer(
-    robot.model, robot.collision_model, robot.visual_model
-)
-
-try:
-    viz.initViewer(open=True)
-except ImportError as err:
-    print(
-        "Error while initializing the viewer. ",
-        "It seems you should install Python meshcat"
+    viz = pin.visualize.MeshcatVisualizer(
+        robot.model, robot.collision_model, robot.visual_model
     )
-    print(err)
-    sys.exit(0)
 
-viz.loadViewerModel()
-# Create a first initial position for the robot. Both legs are bent inwards.
-q = BoltConfig.initial_configuration
+    try:
+        viz.initViewer(open=True)
+    except ImportError as err:
+        print(
+            "Error while initializing the viewer. ",
+            "It seems you should install Python meshcat"
+        )
+        print(err)
+        sys.exit(0)
 
-# q[[4]] = 0.6
-# Turn the legs outside
-q[10] = -0.5  # Right leg
-q[7] = 0.5  # Left leg
+    viz.loadViewerModel()
+    # Create a first initial position for the robot. Both legs are bent inwards.
+    q = BoltConfig.initial_configuration
 
-viz.display(q)
+    # q[[4]] = 0.6
+    # Turn the legs outside
+    q[10] = -0.5  # Right leg
+    q[7] = 0.5  # Left leg
 
-# Example of moving the robot forward and updating the display every time.
-for i in range(500):
-    q[0] += 0.002
     viz.display(q)
-    time.sleep(0.01)
+
+    # Example of moving the robot forward and updating the display every time.
+    for i in range(500):
+        q[0] += 0.002
+        viz.display(q)
+        time.sleep(0.01)
