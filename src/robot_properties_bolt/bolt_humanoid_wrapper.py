@@ -84,7 +84,7 @@ class BoltHumanoidRobot(PinBulletWrapper):
         self.end_eff_ids = []
         self.end_effector_names = []
         controlled_joints = []
-        for leg in ["FL", "FR"]:
+        for leg in ["L", "R"]:
             if self.is_passive:
                 controlled_joints += [
                     leg + "_HAA",
@@ -103,12 +103,16 @@ class BoltHumanoidRobot(PinBulletWrapper):
             )
             self.end_effector_names.append(leg + "_ANKLE")
 
-        # Add waist rotation joint
-        controlled_joints += ["WR"]
+        # Add trunk rotation joint
+        controlled_joints += ["TR"]
         for arm in ["L", "R"]:
             controlled_joints += [
-                arm + "_KFE",
+                arm + "_SFE",
             ]
+            # self.end_eff_ids.append(
+            #     self.pin_robot.model.getFrameId(arm + "_WRIST")
+            # )
+            # self.end_effector_names.append(leg + "_WRIST")
         self.joint_names = controlled_joints
         self.nb_ee = len(self.end_effector_names)
         print("end_effector_names", self.end_effector_names)

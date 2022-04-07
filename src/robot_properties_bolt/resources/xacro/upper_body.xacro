@@ -1,49 +1,49 @@
 <?xml version="1.0" ?>
 <robot name="bolt_humanoid" xmlns:xacro="http://playerstage.sourceforge.net/gazebo/xmlschema/#interface">
 
-  <!-- WA stands for Waist Rotation joint, SFE is shoulder flexion-extension -->
-  <xacro:property name="base_2_WR_z" value="${76.0 * 0.001}" />
+  <!-- WA stands for trunk Rotation joint, SFE is shoulder flexion-extension -->
+  <xacro:property name="base_2_TR_z" value="${76.0 * 0.001}" />
 
   <xacro:macro name="upper_body" params="mesh_ext color_name color opacity">
-    <!-- WAIST link  -->
-    <joint name="WR" type="revolute">
+    <!-- TRUNK link  -->
+    <joint name="TR" type="revolute">
         <parent link="base_link"/>
-        <child link="WAIST"/>
+        <child link="TRUNK"/>
         <limit effort="1000" lower="-10" upper="10" velocity="1000"/>
         <!-- joints rotates around the z-axis -->
         <axis xyz="0 0 1"/>
         <!-- placement of the joint -->
-        <origin xyz="0 0 ${base_2_WR_z}" rpy="0 0 0"/>
+        <origin xyz="0 0 ${base_2_TR_z}" rpy="0 0 0"/>
         <!-- pybullet simulation parameters -->
         <dynamics damping="0.0" friction="0.0"/>
     </joint>
-    <link name="WAIST">
+    <link name="TRUNK">
         <inertial>
-            <!-- WAIST inertia -->
+            <!-- TRUNK inertia -->
             <mass value="0.73260731"/>
             <origin xyz="-0.00013236 0.00599242 0.10576667" rpy="0 0 0"/>
-            <inertia ixx="0.10576667"
+            <inertia ixx="0.00371329"
                     ixy="0.00000024"
                     ixz="-0.00000150"
                     iyy="0.00138427"
                     iyz="-0.00019152"
                     izz="0.00249732"/>
         </inertial>
-        <!-- WAIST LINK VISUAL -->
+        <!-- TRUNK LINK VISUAL -->
         <visual>
             <origin xyz="0 0 0" rpy="0 0 0"/>
             <geometry>
-                <mesh filename="package://robot_properties_bolt/resources/meshes/${mesh_ext}/bolt_waist.${mesh_ext}"/>
+                <mesh filename="package://robot_properties_bolt/resources/meshes/${mesh_ext}/bolt_trunk.${mesh_ext}"/>
             </geometry>
             <material name="${color_name}">
                 <color rgba="${color} ${opacity}"/>
             </material>
         </visual>
-        <!-- WAIST LINK COLLISION -->
+        <!-- TRUNK LINK COLLISION -->
         <collision>
             <origin xyz="0 0 0" rpy="0 0 0"/>
             <geometry>
-                <mesh filename="package://robot_properties_bolt/resources/meshes/${mesh_ext}/bolt_waist.${mesh_ext}"/>
+                <mesh filename="package://robot_properties_bolt/resources/meshes/${mesh_ext}/bolt_trunk.${mesh_ext}"/>
             </geometry>
             <material name="${color_name}">
                 <color rgba="${color} ${opacity}"/>
