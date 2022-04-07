@@ -205,7 +205,7 @@ class BoltHumanoidConfig(BoltAbstract):
         end_eff_ids.append(robot_model.getFrameId(leg + "_ANKLE"))
     nb_ee = len(end_eff_ids)
 
-    joint_names = ["FL_HAA", "FL_HFE", "FL_KFE", "FR_HAA", "FR_HFE", "FR_KFE", "WR", "L_SFE", "R_SFE"]
+    joint_names = ["FL_HAA", "FL_HFE", "FL_KFE", "FR_HAA", "FR_HFE", "FR_KFE", "TR", "L_SFE", "R_SFE"]
 
     # Mapping between the ctrl vector in the device and the urdf indexes.
     urdf_to_dgm = tuple(range(9))

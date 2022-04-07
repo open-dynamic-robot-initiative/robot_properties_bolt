@@ -5,23 +5,26 @@
   <!-- These are absolute distance value, the sign are decided below -->
   <!-- SFE is shoulder flexion-extension -->
 
-  <xacro:property name="WR_2_SFE_y" value="${110.0 * 0.001}" />
-  <xacro:property name="WR_2_SFE_z" value="${160.0 * 0.001}" />
+  <xacro:property name="TR_2_SFE_y" value="${110.0 * 0.001}" />
+  <xacro:property name="TR_2_SFE_z" value="${160.0 * 0.001}" />
+  <xacro:property name="SFE_2_WRIST_y" value="${20.0 * 0.001}" />
+  <xacro:property name="SFE_2_WRIST_z" value="${200.0 * 0.001}" />
+
 
   <!-- Macro defining bolt arm. -->
   <xacro:macro name="arm" params="prefix is_right mesh_ext color_name color opacity">
     <joint name="${prefix}_SFE" type="revolute">
-        <parent link="WAIST"/>
+        <parent link="TRUNK"/>
         <child link="${prefix}_ARM"/>
         <limit effort="1000" lower="-10" upper="10" velocity="1000"/>
         <!-- joints rotates around the y-axis -->
         <axis xyz="0 1 0"/>
         <!-- placement of the joint -->
         <xacro:if value="${is_right}">
-            <origin xyz="0 ${-WR_2_SFE_y} ${WR_2_SFE_z}" rpy="0 0 0"/>
+            <origin xyz="0 ${-TR_2_SFE_y} ${TR_2_SFE_z}" rpy="0 0 0"/>
         </xacro:if>
         <xacro:unless value="${is_right}">
-            <origin xyz="0 ${WR_2_SFE_y} ${WR_2_SFE_z}" rpy="0 0 0"/>
+            <origin xyz="0 ${TR_2_SFE_y} ${TR_2_SFE_z}" rpy="0 0 0"/>
         </xacro:unless>
         <!-- pybullet simulation parameters -->
         <dynamics damping="0.0" friction="0.0"/>
@@ -91,5 +94,61 @@
         </contact>
     </link>
     <!-- END ARM LINK -->
-    </xacro:macro>
+
+
+    <!-- WRIST: Joint between the arm and the (dummy) hand -->
+    <joint name="${prefix}_WRIST" type="fixed">
+      <parent link="${prefix}_ARM"/>
+      <child link="${prefix}L_HAND"/>
+      <!-- Joint placement -->
+      <xacro:unless value="${is_right}">
+        <origin xyz="0 ${SFE_2_WRIST_y} ${-SFE_2_WRIST_z}" rpy="0 0 0" />
+      </xacro:unless>
+      <xacro:if value="${is_right}">
+        <origin xyz="0 ${-SFE_2_WRIST_y} ${-SFE_2_WRIST_z}" rpy="0 0 0" />
+      </xacro:if>
+      <!-- Limits (usefull?) -->
+      <limit effort="1000" lower="-10" upper="10" velocity="1000"/>
+      <!-- pybullet simulation parameters -->
+      <dynamics damping="0.0" friction="0.0"/>
+    </joint>
+
+    <link name="${prefix}_HAND">
+      <!-- HAND INERTIAL -->
+      <!-- This link is symmetrical left or right -->
+      <inertial>
+        <origin xyz="0 0 0.0" rpy="0 0 0" />
+        <mass value="0.0"/>
+        <inertia ixx="0.0" ixy="0.0" ixz="0.0"
+                           iyy="0.0" iyz="0.0"
+                                     izz="0.0"/>
+     </inertial>
+      <!-- HAND VISUAL -->
+      <visual>
+        <origin xyz="0 0 0" rpy="0 0 0" />
+        <geometry>
+          <mesh filename="package://robot_properties_bolt/resources/meshes/${mesh_ext}/with_foot/bolt_foot.${mesh_ext}"/>
+        </geometry>
+        <material name="${color_name}">
+            <color rgba="${color} ${opacity}"/>
+        </material>
+      </visual>
+      <!-- HAND COLLISION -->
+      <collision>
+        <origin xyz="0 0 0" rpy="0 0 0" />
+        <geometry>
+            <mesh filename="package://robot_properties_bolt/resources/meshes/${mesh_ext}/with_foot/bolt_foot.${mesh_ext}"/>
+        </geometry>
+        <material name="${color_name}">
+            <color rgba="${color} ${opacity}"/>
+        </material>
+      </collision>
+      <!-- Bullet specific paramters -->
+      <contact>
+        <lateral_friction value="1.0"/>
+        <restitution value="0.5"/>
+      </contact>
+    </link>
+    <!-- END HAND LINK -->
+  </xacro:macro>
 </robot>
