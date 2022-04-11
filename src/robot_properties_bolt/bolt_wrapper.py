@@ -105,7 +105,6 @@ class BoltRobot(PinBulletWrapper):
 
         self.joint_names = controlled_joints
         self.nb_ee = len(self.end_effector_names)
-        print("end_effector_names", self.end_effector_names)
 
         # Creates the wrapper by calling the super.__init__.
         super(BoltRobot, self).__init__(
