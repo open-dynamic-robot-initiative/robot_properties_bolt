@@ -99,7 +99,7 @@
     <!-- WRIST: Joint between the arm and the (dummy) hand -->
     <joint name="${prefix}_WRIST" type="fixed">
       <parent link="${prefix}_ARM"/>
-      <child link="${prefix}L_HAND"/>
+      <child link="${prefix}_HAND"/>
       <!-- Joint placement -->
       <xacro:unless value="${is_right}">
         <origin xyz="0 ${SFE_2_WRIST_y} ${-SFE_2_WRIST_z}" rpy="0 0 0" />
@@ -127,7 +127,7 @@
       <visual>
         <origin xyz="0 0 0" rpy="0 0 0" />
         <geometry>
-          <mesh filename="package://robot_properties_bolt/resources/meshes/${mesh_ext}/with_foot/bolt_foot.${mesh_ext}"/>
+          <mesh filename="package://robot_properties_bolt/resources/meshes/${mesh_ext}/bolt_foot.${mesh_ext}"/>
         </geometry>
         <material name="${color_name}">
             <color rgba="${color} ${opacity}"/>
@@ -137,7 +137,7 @@
       <collision>
         <origin xyz="0 0 0" rpy="0 0 0" />
         <geometry>
-            <mesh filename="package://robot_properties_bolt/resources/meshes/${mesh_ext}/with_foot/bolt_foot.${mesh_ext}"/>
+            <mesh filename="package://robot_properties_bolt/resources/meshes/${mesh_ext}/bolt_foot.${mesh_ext}"/>
         </geometry>
         <material name="${color_name}">
             <color rgba="${color} ${opacity}"/>
