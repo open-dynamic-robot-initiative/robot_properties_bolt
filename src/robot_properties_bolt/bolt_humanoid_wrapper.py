@@ -115,7 +115,6 @@ class BoltHumanoidRobot(PinBulletWrapper):
             self.end_effector_names.append(arm + "_WRIST")
         self.joint_names = controlled_joints
         self.nb_ee = len(self.end_effector_names)
-        print("end_effector_names", self.end_effector_names)
 
         # Creates the wrapper by calling the super.__init__.
         super(BoltHumanoidRobot, self).__init__(
