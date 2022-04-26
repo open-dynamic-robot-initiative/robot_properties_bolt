@@ -101,12 +101,7 @@
       <parent link="${prefix}_ARM"/>
       <child link="${prefix}_HAND"/>
       <!-- Joint placement -->
-      <xacro:unless value="${is_right}">
-        <origin xyz="${SFE_2_WRIST_x} 0 ${-SFE_2_WRIST_z}" rpy="0 0 0" />
-      </xacro:unless>
-      <xacro:if value="${is_right}">
-        <origin xyz="${-SFE_2_WRIST_x} 0 ${-SFE_2_WRIST_z}" rpy="0 0 0" />
-      </xacro:if>
+      <origin xyz="${SFE_2_WRIST_x} 0 ${-SFE_2_WRIST_z}" rpy="0 0 0" />
       <!-- Limits (usefull?) -->
       <limit effort="1000" lower="-10" upper="10" velocity="1000"/>
       <!-- pybullet simulation parameters -->
