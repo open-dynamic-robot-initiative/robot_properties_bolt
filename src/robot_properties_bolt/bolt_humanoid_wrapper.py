@@ -148,6 +148,11 @@ class BoltHumanoidRobot(PinBulletWrapper):
         else:
             super(BoltHumanoidRobot, self).reset_state(q, dq)
 
+    def reset_to_initial_state(self) -> None:
+        """Reset state to the initial configuration (based on BoltHumanoidConfig)."""
+        q0 = np.matrix(BoltHumanoidConfig.initial_configuration).T
+        dq0 = np.matrix(BoltHumanoidConfig.initial_velocity).T
+        self.reset_state(q0, dq0)
 
     def send_joint_command(self, tau):
         if self.is_passive:
